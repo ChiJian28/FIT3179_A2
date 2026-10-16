@@ -1,0 +1,238 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "100% stacked horizontal comparison of sex share in patrolling members vs coastal drowning deaths.",
+  "width": 350,
+  "height": 180,
+  "padding": {
+    "left": 14,
+    "right": 16,
+    "top": 10,
+    "bottom": 10
+  },
+  "data": {
+    "url": "data/sex_share.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "format(datum.share, '.1f') + '% ' + datum.sex",
+      "as": "calc_sex_label"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "group",
+      "type": "nominal",
+      "sort": [
+        "Patrolling members",
+        "Drowning deaths"
+      ],
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12.5
+      }
+    },
+    "x": {
+      "field": "share",
+      "type": "quantitative",
+      "stack": "zero",
+      "title": "Share of people (%)",
+      "scale": {
+        "domain": [
+          0,
+          100
+        ]
+      },
+      "axis": {
+        "values": [
+          0,
+          20,
+          40,
+          50,
+          60,
+          80,
+          100
+        ]
+      }
+    },
+    "order": {
+      "field": "sex",
+      "type": "nominal",
+      "sort": "descending"
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "height": {
+          "band": 0.56
+        },
+        "stroke": "#fffcf8",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "color": {
+          "field": "sex",
+          "type": "nominal",
+          "sort": [
+            "Male",
+            "Female"
+          ],
+          "scale": {
+            "domain": [
+              "Male",
+              "Female"
+            ],
+            "range": [
+              "#1c2430",
+              "#cbbab4"
+            ]
+          },
+          "legend": {
+            "title": "Sex:",
+            "orient": "bottom"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "group",
+            "type": "nominal",
+            "title": "Population group"
+          },
+          {
+            "field": "sex",
+            "type": "nominal",
+            "title": "Sex"
+          },
+          {
+            "field": "share",
+            "type": "quantitative",
+            "title": "Share (%)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#fffcf8",
+        "strokeWidth": 1.5,
+        "strokeDash": [
+          3,
+          3
+        ]
+      },
+      "encoding": {
+        "x": {
+          "datum": 50
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.sex == 'Male'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#ffffff"
+      },
+      "encoding": {
+        "x": {
+          "value": 8
+        },
+        "text": {
+          "field": "calc_sex_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.sex == 'Female'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -8,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "x": {
+          "datum": 99
+        },
+        "text": {
+          "field": "calc_sex_label",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "2023/24 coastal drowning deaths by activity with count and percentage share.",
+  "width": 320,
+  "height": 210,
+  "padding": {
+    "left": 24,
+    "right": 24,
+    "top": 8,
+    "bottom": 8
+  },
+  "data": {
+    "url": "data/activity_counts.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum.deaths + ' (' + format(datum.deaths / 150 * 100, '.1f') + '%)'",
+      "as": "calc_label"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "activity",
+      "type": "nominal",
+      "sort": [
+        "Swimming and wading",
+        "All other coastal activities",
+        "Boating",
+        "Snorkelling",
+        "Falls into water"
+      ],
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12.5
+      }
+    },
+    "x": {
+      "field": "deaths",
+      "type": "quantitative",
+      "title": "Coastal drowning deaths in 2023/24 (n = 150)",
+      "scale": {
+        "zero": true,
+        "domain": [
+          0,
+          76
+        ]
+      },
+      "axis": {
+        "tickCount": 5
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "height": {
+          "band": 0.58
+        },
+        "cornerRadiusEnd": 2
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "datum.activity == 'Swimming and wading'",
+            "value": "#7a1f1c"
+          },
+          "value": "#9e8f89"
+        },
+        "tooltip": [
+          {
+            "field": "activity",
+            "type": "nominal",
+            "title": "Activity"
+          },
+          {
+            "field": "deaths",
+            "type": "quantitative",
+            "title": "Deaths (2023/24)"
+          },
+          {
+            "field": "calc_label",
+            "type": "nominal",
+            "title": "Count & share"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 7,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

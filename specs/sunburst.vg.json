@@ -1,0 +1,254 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Two-ring hierarchical sunburst of coastal drowning places (inner ring) and beach rip current status (outer ring), showing relative percentages and counts.",
+  "width": 360,
+  "height": 360,
+  "padding": {
+    "left": 16,
+    "right": 16,
+    "top": 10,
+    "bottom": 10
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/sunburst_inner.csv?v=20",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "mark": {
+        "type": "arc",
+        "innerRadius": 54,
+        "outerRadius": 118,
+        "stroke": "#ffffff",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "theta": {
+          "field": "count",
+          "type": "quantitative",
+          "stack": true
+        },
+        "order": {
+          "field": "ord",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "label",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Beach \u00b7 56.0% (84)",
+              "Offshore \u00b7 18.7% (28)",
+              "Rock/cliff \u00b7 12.7% (19)",
+              "Other coastal \u00b7 12.7% (19)"
+            ],
+            "range": [
+              "#a33b36",
+              "#5e6a76",
+              "#8d847c",
+              "#cfc6bb"
+            ]
+          },
+          "legend": {
+            "title": "Inner ring \u00b7 Location (% of 150)",
+            "orient": "bottom",
+            "columns": 1,
+            "labelLimit": 240
+          }
+        },
+        "tooltip": [
+          {
+            "field": "slice",
+            "type": "nominal",
+            "title": "Location"
+          },
+          {
+            "field": "pct",
+            "type": "quantitative",
+            "title": "Share of total (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "count",
+            "type": "quantitative",
+            "title": "Drowning deaths (n)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/sunburst_outer.csv?v=20",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "mark": {
+        "type": "arc",
+        "innerRadius": 124,
+        "outerRadius": 170,
+        "stroke": "#ffffff",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "theta": {
+          "field": "count",
+          "type": "quantitative",
+          "stack": true
+        },
+        "order": {
+          "field": "ord",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "slice",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Beach \u00b7 Rip unknown (41.7% of beach)",
+              "Beach \u00b7 Rip confirmed (34.5% of beach)",
+              "Beach \u00b7 No rip (23.8% of beach)",
+              "Offshore waters (non-beach)",
+              "Rock or cliff (non-beach)",
+              "Other coastal waters (non-beach)"
+            ],
+            "range": [
+              "#31404d",
+              "#7a1f1c",
+              "#e0b2ac",
+              "#8a949e",
+              "#afa79f",
+              "#dfd8cf"
+            ]
+          },
+          "legend": {
+            "title": "Outer ring \u00b7 Beach rip breakdown",
+            "orient": "bottom",
+            "columns": 1,
+            "labelLimit": 240
+          }
+        },
+        "tooltip": [
+          {
+            "field": "slice",
+            "type": "nominal",
+            "title": "Breakdown"
+          },
+          {
+            "field": "pct_total",
+            "type": "quantitative",
+            "title": "Share of all 150 deaths (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "count",
+            "type": "quantitative",
+            "title": "Deaths (n)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "t1": "150 deaths"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 13,
+        "fontWeight": 600,
+        "dy": -7,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "text": {
+          "field": "t1",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "t2": "56.0% beach"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "dy": 10,
+        "color": "#7a1f1c"
+      },
+      "encoding": {
+        "text": {
+          "field": "t2",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent"
+    }
+  },
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

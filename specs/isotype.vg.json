@@ -1,0 +1,118 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Pictorial ISOTYPE chart of 150 coastal drowning deaths using human figure glyphs (each icon = 3 deaths).",
+  "data": {
+    "url": "data/isotype.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "padding": {
+    "left": 10,
+    "right": 10,
+    "top": 8,
+    "bottom": 8
+  },
+  "facet": {
+    "column": {
+      "field": "group",
+      "title": null,
+      "sort": [
+        "Men",
+        "Women"
+      ],
+      "header": {
+        "labelFontSize": 15,
+        "labelFontWeight": 600,
+        "labelPadding": 8
+      }
+    }
+  },
+  "spec": {
+    "width": 205,
+    "height": 170,
+    "mark": {
+      "type": "point",
+      "filled": true,
+      "shape": "M 0 -0.92 C 0.20 -0.92 0.34 -0.78 0.34 -0.58 C 0.34 -0.38 0.20 -0.24 0 -0.24 C -0.20 -0.24 -0.34 -0.38 -0.34 -0.58 C -0.34 -0.78 -0.20 -0.92 0 -0.92 Z M -0.44 -0.14 C -0.44 -0.18 -0.38 -0.20 -0.30 -0.20 L 0.30 -0.20 C 0.38 -0.20 0.44 -0.18 0.44 -0.14 L 0.48 0.34 L 0.30 0.34 L 0.26 0.92 L 0.04 0.92 L 0.04 0.38 L -0.04 0.38 L -0.04 0.92 L -0.26 0.92 L -0.30 0.34 L -0.48 0.34 Z",
+      "size": 210,
+      "color": "#7a1f1c"
+    },
+    "encoding": {
+      "x": {
+        "field": "col",
+        "type": "ordinal",
+        "axis": null,
+        "scale": {
+          "padding": 0.35
+        }
+      },
+      "y": {
+        "field": "row",
+        "type": "ordinal",
+        "axis": null,
+        "sort": "descending",
+        "scale": {
+          "padding": 0.35
+        }
+      },
+      "tooltip": [
+        {
+          "field": "group",
+          "type": "nominal",
+          "title": "Sex (1 figure = 3 deaths)"
+        }
+      ]
+    }
+  },
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

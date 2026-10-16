@@ -1,0 +1,507 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Interactive legend-bound slope chart comparing activity share of coastal drowning deaths in 2014\u201324 vs 2023/24.",
+  "width": 440,
+  "height": 290,
+  "padding": {
+    "left": 14,
+    "right": 16,
+    "top": 8,
+    "bottom": 8
+  },
+  "data": {
+    "url": "data/slope_activity.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "format(datum.share, '.1f') + '%'",
+      "as": "share_pct"
+    }
+  ],
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "act_sel",
+          "select": {
+            "type": "point",
+            "fields": [
+              "activity"
+            ]
+          },
+          "bind": "legend"
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2.8
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ],
+          "title": null,
+          "scale": {
+            "padding": 0.3
+          },
+          "axis": {
+            "labelAngle": 0,
+            "labelFontSize": 13,
+            "labelFontWeight": 600
+          }
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative",
+          "title": "Share of coastal drowning deaths (%)",
+          "scale": {
+            "zero": true,
+            "domain": [
+              0,
+              48
+            ]
+          },
+          "axis": {
+            "tickCount": 5
+          }
+        },
+        "color": {
+          "field": "activity",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Swimming and wading",
+              "Boating",
+              "Snorkelling",
+              "All other activities"
+            ],
+            "range": [
+              "#7a1f1c",
+              "#1d4e73",
+              "#8a6232",
+              "#9e958b"
+            ]
+          },
+          "legend": {
+            "title": "Click legend to highlight activity:",
+            "orient": "bottom",
+            "columns": 2
+          }
+        },
+        "opacity": {
+          "condition": {
+            "param": "act_sel",
+            "value": 1
+          },
+          "value": 0.2
+        },
+        "tooltip": [
+          {
+            "field": "activity",
+            "type": "nominal",
+            "title": "Activity"
+          },
+          {
+            "field": "period",
+            "type": "nominal",
+            "title": "Period"
+          },
+          {
+            "field": "share",
+            "type": "quantitative",
+            "title": "Share (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "deaths",
+            "type": "quantitative",
+            "title": "Deaths"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 75
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "activity",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Swimming and wading",
+              "Boating",
+              "Snorkelling",
+              "All other activities"
+            ],
+            "range": [
+              "#7a1f1c",
+              "#1d4e73",
+              "#8a6232",
+              "#9e958b"
+            ]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "condition": {
+            "param": "act_sel",
+            "value": 1
+          },
+          "value": 0.25
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.activity == 'All other activities' && datum.period == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": -8,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#786f66"
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "share_pct",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.activity == 'Swimming and wading' && datum.period == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 10,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#7a1f1c"
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "share_pct",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.activity == 'Boating' && datum.period == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": -4,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#1d4e73"
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "share_pct",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.activity == 'Snorkelling' && datum.period == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 8,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#8a6232"
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "share_pct",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.activity == 'All other activities' && datum.period == '2014\u201324'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": -4,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#786f66"
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "share_pct",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.activity == 'Swimming and wading' && datum.period == '2014\u201324'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": 4,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#7a1f1c"
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "share_pct",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.activity == 'Boating' && datum.period == '2014\u201324'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": 0,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#1d4e73"
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "share_pct",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.activity == 'Snorkelling' && datum.period == '2014\u201324'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": 0,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#8a6232"
+      },
+      "encoding": {
+        "x": {
+          "field": "period",
+          "type": "ordinal",
+          "sort": [
+            "2014\u201324",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "share",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "share_pct",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}
