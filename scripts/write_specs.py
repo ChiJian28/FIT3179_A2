@@ -601,7 +601,7 @@ def main():
                             "select": {"type": "point", "fields": ["state"], "on": "mouseover", "clear": "mouseout"},
                         }
                     ],
-                    "mark": {"type": "line", "strokeWidth": 2.6},
+                    "mark": {"type": "line", "strokeWidth": 2.8},
                     "encoding": {
                         "x": {
                             "field": "year",
@@ -620,19 +620,15 @@ def main():
                         },
                         "detail": {"field": "state", "type": "nominal"},
                         "color": {
-                            "condition": {
-                                "param": "state_hover",
-                                "empty": False,
-                                "value": WINE,
-                            },
-                            "field": "emphasis",
-                            "type": "nominal",
-                            "scale": {"domain": [0, 1], "range": ["#c6b7b2", WINE]},
-                            "legend": None,
+                            "condition": [
+                                {"param": "state_hover", "empty": False, "value": WINE},
+                                {"test": "datum.code == 'Tas' || datum.code == 'NSW'", "value": WINE},
+                            ],
+                            "value": "#b8a6a1",
                         },
                         "opacity": {
                             "condition": {"param": "state_hover", "value": 1},
-                            "value": 0.88,
+                            "value": 0.9,
                         },
                         "tooltip": [
                             {"field": "state", "type": "nominal", "title": "State"},
@@ -643,15 +639,13 @@ def main():
                     },
                 },
                 {
-                    "mark": {"type": "circle", "size": 76},
+                    "mark": {"type": "circle", "size": 80, "opacity": 1},
                     "encoding": {
                         "x": {"field": "year", "type": "ordinal", "sort": ["2022/23", "2023/24"]},
                         "y": {"field": "rate", "type": "quantitative"},
                         "color": {
-                            "field": "emphasis",
-                            "type": "nominal",
-                            "scale": {"domain": [0, 1], "range": ["#9e8f89", WINE]},
-                            "legend": None,
+                            "condition": {"test": "datum.code == 'Tas' || datum.code == 'NSW'", "value": WINE},
+                            "value": "#9e8f89",
                         },
                         "tooltip": [
                             {"field": "state", "type": "nominal", "title": "State"},
@@ -683,10 +677,10 @@ def main():
                     for code, dy in [
                         ("Tas", 0),
                         ("NSW", -8),
-                        ("WA", 10),
+                        ("WA", 8),
                         ("SA", -8),
-                        ("Qld", 2),
-                        ("Vic", 12),
+                        ("Qld", 3),
+                        ("Vic", 14),
                     ]
                 ],
                 *[
@@ -699,7 +693,8 @@ def main():
                             "dy": dy,
                             "font": FONT,
                             "fontSize": 11.5,
-                            "color": MUTED,
+                            "fontWeight": 600 if code in ("Tas", "NSW") else 400,
+                            "color": WINE if code in ("Tas", "NSW") else MUTED,
                         },
                         "encoding": {
                             "x": {"field": "year", "type": "ordinal", "sort": ["2022/23", "2023/24"]},
@@ -708,11 +703,11 @@ def main():
                         },
                     }
                     for code, dy in [
-                        ("WA", -4),
-                        ("NSW", -8),
-                        ("Tas", 4),
-                        ("Qld", 12),
-                        ("SA", -6),
+                        ("WA", -6),
+                        ("NSW", -10),
+                        ("Tas", 1),
+                        ("Qld", 13),
+                        ("SA", -4),
                         ("Vic", 10),
                     ]
                 ],

@@ -278,7 +278,11 @@ h2 {
   max-width: 440px !important;
 }
 
-.vega-embed .vega-bindings {
+.vega-embed .vega-bindings:empty {
+  display: none !important;
+}
+
+.vega-embed .vega-bind {
   margin-top: 8px;
   padding: 6px 10px;
   background: var(--card-header);

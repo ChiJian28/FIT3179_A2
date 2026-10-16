@@ -38,7 +38,7 @@
       ],
       "mark": {
         "type": "line",
-        "strokeWidth": 2.6
+        "strokeWidth": 2.8
       },
       "encoding": {
         "x": {
@@ -78,31 +78,25 @@
           "type": "nominal"
         },
         "color": {
-          "condition": {
-            "param": "state_hover",
-            "empty": false,
-            "value": "#7a1f1c"
-          },
-          "field": "emphasis",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              0,
-              1
-            ],
-            "range": [
-              "#c6b7b2",
-              "#7a1f1c"
-            ]
-          },
-          "legend": null
+          "condition": [
+            {
+              "param": "state_hover",
+              "empty": false,
+              "value": "#7a1f1c"
+            },
+            {
+              "test": "datum.code == 'Tas' || datum.code == 'NSW'",
+              "value": "#7a1f1c"
+            }
+          ],
+          "value": "#b8a6a1"
         },
         "opacity": {
           "condition": {
             "param": "state_hover",
             "value": 1
           },
-          "value": 0.88
+          "value": 0.9
         },
         "tooltip": [
           {
@@ -132,7 +126,8 @@
     {
       "mark": {
         "type": "circle",
-        "size": 76
+        "size": 80,
+        "opacity": 1
       },
       "encoding": {
         "x": {
@@ -148,19 +143,11 @@
           "type": "quantitative"
         },
         "color": {
-          "field": "emphasis",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              0,
-              1
-            ],
-            "range": [
-              "#9e8f89",
-              "#7a1f1c"
-            ]
+          "condition": {
+            "test": "datum.code == 'Tas' || datum.code == 'NSW'",
+            "value": "#7a1f1c"
           },
-          "legend": null
+          "value": "#9e8f89"
         },
         "tooltip": [
           {
@@ -267,7 +254,7 @@
         "type": "text",
         "align": "left",
         "dx": 10,
-        "dy": 10,
+        "dy": 8,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
         "fontWeight": 600,
@@ -337,7 +324,7 @@
         "type": "text",
         "align": "left",
         "dx": 10,
-        "dy": 2,
+        "dy": 3,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
         "fontWeight": 600,
@@ -372,7 +359,7 @@
         "type": "text",
         "align": "left",
         "dx": 10,
-        "dy": 12,
+        "dy": 14,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
         "fontWeight": 600,
@@ -407,9 +394,10 @@
         "type": "text",
         "align": "right",
         "dx": -10,
-        "dy": -4,
+        "dy": -6,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
+        "fontWeight": 400,
         "color": "#786f66"
       },
       "encoding": {
@@ -441,10 +429,11 @@
         "type": "text",
         "align": "right",
         "dx": -10,
-        "dy": -8,
+        "dy": -10,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
-        "color": "#786f66"
+        "fontWeight": 600,
+        "color": "#7a1f1c"
       },
       "encoding": {
         "x": {
@@ -475,10 +464,11 @@
         "type": "text",
         "align": "right",
         "dx": -10,
-        "dy": 4,
+        "dy": 1,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
-        "color": "#786f66"
+        "fontWeight": 600,
+        "color": "#7a1f1c"
       },
       "encoding": {
         "x": {
@@ -509,9 +499,10 @@
         "type": "text",
         "align": "right",
         "dx": -10,
-        "dy": 12,
+        "dy": 13,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
+        "fontWeight": 400,
         "color": "#786f66"
       },
       "encoding": {
@@ -543,9 +534,10 @@
         "type": "text",
         "align": "right",
         "dx": -10,
-        "dy": -6,
+        "dy": -4,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
+        "fontWeight": 400,
         "color": "#786f66"
       },
       "encoding": {
@@ -580,6 +572,7 @@
         "dy": 10,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
+        "fontWeight": 400,
         "color": "#786f66"
       },
       "encoding": {

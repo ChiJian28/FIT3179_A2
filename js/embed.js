@@ -1,4 +1,4 @@
-const version = "21";
+const version = "23";
 const specs = [
   ["#national-bars", "specs/national_bars.vg.json"],
   ["#decade-brush", "specs/decade_brush.vg.json"],
@@ -24,9 +24,21 @@ async function renderAll() {
     } catch (_) {}
   }
   for (const [el, spec] of specs) {
-    vegaEmbed(el, spec + "?v=" + version, { actions: false, renderer: "svg" }).catch((error) => {
-      console.error(spec, error);
-    });
+    vegaEmbed(el, spec + "?v=" + version, { actions: false, renderer: "svg" })
+      .then((res) => {
+        const container = document.querySelector(el);
+        if (container) {
+          for (const form of container.querySelectorAll(".vega-bindings")) {
+            if (!form.children || form.children.length === 0) {
+              form.remove();
+            }
+          }
+        }
+        return res;
+      })
+      .catch((error) => {
+        console.error(spec, error);
+      });
   }
 }
 
