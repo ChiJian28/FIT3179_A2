@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Between the Red and Yellow Flags · Surf Life Saving Australia (2023/24)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.5.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+</head>
+<body>
+  <article class="page">
+    <header class="masthead">
+      <div class="masthead-top">
+        <p class="kicker">Surf Life Saving Australia · National Coastal Safety Report 2023/24</p>
+        <p class="byline-meta">By <strong>Lim Chi Jian</strong> · Published October 2026 · Designed for a general Australian audience</p>
+      </div>
+      <div class="masthead-hero">
+        <h1>Between the Red and Yellow Flags</h1>
+        <p class="lede">
+          Across 315 clubs, Australian surf lifesavers and lifeguards intervened <span class="service">2.48 million times</span> in 2023/24 to stop beachgoers from entering danger—keeping drowning deaths between patrolled red and yellow flags at <strong>zero</strong>. Yet outside those patrolled zones, Australia recorded <span class="death">150 coastal drowning deaths</span>, the highest toll since national records began in 2004.
+        </p>
+      </div>
+
+      <div class="kpi-grid" role="region" aria-label="Key national coastal safety figures for 2023/24">
+        <div class="kpi-card kpi-service">
+          <p class="kpi-num">2,482,013</p>
+          <p class="kpi-label">Preventative actions (+39% vs 10-yr average of 1.78M)</p>
+        </div>
+        <div class="kpi-card kpi-service">
+          <p class="kpi-num">1,462,533</p>
+          <p class="kpi-label">Volunteer patrol hours by 45,236 active patrolling members</p>
+        </div>
+        <div class="kpi-card kpi-death">
+          <p class="kpi-num">150</p>
+          <p class="kpi-label">Coastal drowning deaths (+17% above 10-yr average of 128)</p>
+        </div>
+        <div class="kpi-card kpi-death">
+          <p class="kpi-num">69%</p>
+          <p class="kpi-label">Occurred more than 1 km from any surf life saving service (104 deaths)</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 01 -->
+    <section class="section" id="scale">
+      <div class="section-header">
+        <div class="section-title-col">
+          <p class="kicker">Section 01 · National Ten-Year Trajectory</p>
+          <h2>Proactive prevention surged by 39%, cutting emergency rescues even as unpatrolled drownings reached a 20-year high.</h2>
+        </div>
+        <div class="prose">
+          <p>
+            Over the past decade (2014/15–2023/24), Australian surf life saving services transformed how they protect the coast. Rather than waiting for swimmers to be swept into rips, patrolling members stepped up <span class="service">preventative actions</span>—warning beachgoers, moving hazards, and shepherd-guiding swimmers back between the flags—from 1.20 million in 2014/15 to <span class="service">2,482,013 in 2023/24</span>. As proactive warnings climbed 39% above the ten-year average, emergency in-water <span class="service">rescues fell 13%</span> to 8,857.
+          </p>
+          <p>
+            Yet coastal drowning deaths moved in the opposite direction. Since the post-lockdown domestic coastal tourism boom of 2020/21, annual fatalities have stayed consistently above the ten-year mean of <span class="death">128 deaths per year</span>, peaking at <span class="death">150 deaths in 2023/24</span> (0.56 per 100,000 Australians). Every single fatal incident happened at an unpatrolled location, outside patrol hours, or outside the red and yellow flags.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-pair">
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Shift from reactive rescues to proactive prevention (2023/24 vs. 10-year mean)</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="service">2,482,013 preventative actions</span> (+39% vs. 1,781,900 ten-year mean).</p>
+            <p><span class="service">8,857 rescues</span> (−13% vs. 10,146 mean; 5,274 by club volunteers).</p>
+          </div>
+          <div id="national-bars" class="chart"></div>
+          <figcaption>Small-multiples bar comparison with independent zero-baseline horizontal scales so preventative actions (millions) do not dwarf rescues (thousands). Source: SLSA NCSR 2024.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Ten-year coastal drowning anomaly and prevention growth (2014/15–2023/24)</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="death">4 consecutive seasons above 128/yr</span> since 2020/21 (1,276 total over 10 years).</p>
+            <p><span class="service">Interactive brush:</span> drag across the lower timeline to inspect specific periods.</p>
+          </div>
+          <div id="decade-brush" class="chart"></div>
+          <figcaption>Coordinated overview-and-detail views. Top: annual coastal drowning deaths relative to the 10-year average (128). Bottom: preventative actions (millions) with an interactive time-window brush.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- SECTION 02 -->
+    <section class="section" id="rate">
+      <div class="section-header">
+        <div class="section-title-col">
+          <p class="kicker">Section 02 · Geographic Risk &amp; Per-Capita Standardisation</p>
+          <h2>New South Wales recorded the highest raw toll, but Tasmania suffered triple the national drowning rate.</h2>
+        </div>
+        <div class="prose">
+          <p>
+            Mapping raw death counts across states would mislead readers by simply reflecting population size: New South Wales (population 8.36 million) recorded <span class="death">61 coastal drowning deaths</span>, whereas island Tasmania (0.57 million) recorded <span class="death">10 deaths</span>. Standardising by Australian Bureau of Statistics (ABS) resident population reveals the true per-capita risk: Tasmania’s coastal drowning rate of <span class="death">1.74 per 100,000 people</span> is more than three times the national rate of 0.56 and more than double New South Wales (0.73) and Western Australia (0.69).
+          </p>
+          <p>
+            The year-on-year slope comparison shows why smaller jurisdictions experience sharp rate swings: Tasmania’s toll rose from <span class="death">3 deaths in 2022/23 to 10 in 2023/24</span>, driving its rate from 0.52 to 1.74. Meanwhile, Queensland reduced its coastal toll from 27 to 23 deaths (0.49 to 0.42 per 100,000), staying well below the national benchmark alongside Victoria (0.38) and South Australia (0.48).
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-full">
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Classified choropleth map of state coastal drowning rates (Australian Albers Equal-Area Projection)</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="death">Tasmania (1.74 per 100k)</span> sits in the highest risk class from 10 deaths.</p>
+            <p><span class="death">New South Wales (0.73) &amp; WA (0.69)</span> exceed the 0.56 national benchmark.</p>
+          </div>
+          <div id="choropleth" class="chart"></div>
+          <figcaption>Map Idiom 1: Classified Choropleth Map using EPSG:3577 (Australian Albers conic equal-area, parallels 18°S &amp; 36°S, central meridian 132°E). Use the dropdown above the map to inspect 10-year rates, unpatrolled distance shares, or raw counts. Grey indicates no single-year rate for NT (reported as a 5-year pool of 7 deaths, 0.39 per 100k).</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid-pair">
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>State drowning rates vs. national benchmark (0.56) and 10-year state averages</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="death">3 states exceed 0.56</span> (dashed vertical benchmark line).</p>
+            <p><strong>Black tick marks</strong> show each state’s 10-year historical average rate.</p>
+          </div>
+          <div id="bullets" class="chart"></div>
+          <figcaption>Bullet chart encoding 2023/24 state rates (wine bars) against qualitative risk bands (&lt;0.45 low, 0.45–0.75 moderate, &gt;0.75 high), 10-year state averages (vertical black ticks), and the 0.56 national rate.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Year-on-year trajectory in state coastal drowning rates (2022/23 to 2023/24)</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="death">Tasmania: 0.52 → 1.74</span> (deaths rose from 3 to 10).</p>
+            <p><span class="death">Queensland: 0.49 → 0.42</span> (deaths fell from 27 to 23). Hover to highlight.</p>
+          </div>
+          <div id="slope-states" class="chart"></div>
+          <figcaption>Slope chart comparing 2022/23 and 2023/24 rates per 100,000 using constant ABS 2023/24 population denominators so small counts are compared on a uniform per-capita basis.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- SECTION 03 -->
+    <section class="section" id="hours">
+      <div class="section-header">
+        <div class="section-title-col">
+          <p class="kicker">Section 03 · Patrol Capacity, Cartogram Distortion &amp; Remoteness</p>
+          <h2>Volunteer patrols cluster heavily along the east coast, while 69% of deaths happen more than a kilometre away.</h2>
+        </div>
+        <div class="prose">
+          <p>
+            Combining SLSA patrol records with ABS and Geoscience Australia coastline data highlights a stark structural divide. Nearly three-quarters of Australia’s <span class="service">1,462,533 volunteer patrol hours</span> and <span class="service">45,236 active patrolling members</span> are concentrated in New South Wales (685,090 hours across 129 clubs) and Queensland (356,662 hours across 57 clubs). In the non-contiguous cartogram below, where each state’s land area is scaled in proportion to its patrolling members, the eastern states dominate the map while Tasmania (792 patrollers across 15 clubs) shrinks to a tiny dark-red island.
+          </p>
+          <p>
+            Because surf life saving clubs can only guard a fraction of Australia’s vast coastline, <span class="death">104 of the 150 coastal drowning deaths (69%)</span> occurred more than 1 km from the nearest club or lifeguard service. In Tasmania, where rugged coast stretches 2,833 km with only 5.3 clubs per 1,000 km, <span class="death">90% of drowning deaths (9 of 10)</span> happened beyond the 1 km radius.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-pair">
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Volunteer patrol hours across Australia’s 315 Surf Life Saving clubs</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="service">NSW (685,090 hrs) &amp; Qld (356,662 hrs)</span> contribute 71% of national volunteer hours.</p>
+            <p><span class="service">Tasmania (21,773 hrs) &amp; NT (1,759 hrs)</span> reflect smaller club networks.</p>
+          </div>
+          <div id="symbol-map" class="chart"></div>
+          <figcaption>Map Idiom 2: Proportional Symbol Map in Australian Albers projection. Circle area is strictly proportional to 2023/24 volunteer patrol hours positioned at state centroids.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>States resized by active patrolling members and coloured by drowning rate</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="service">Area = 45,236 patrolling members</span> (NSW 20,878; Qld 9,072; Vic 6,630).</p>
+            <p><span class="death">Colour = drowning rate class</span>—small, dark Tasmania contrasts with large east-coast services.</p>
+          </div>
+          <div id="cartogram" class="chart"></div>
+          <figcaption>Map Idiom 3: Non-Contiguous Area Cartogram. State polygons are scaled around their Albers centroids so that drawn polygon area is strictly proportional to active patrolling members, overlaid on dashed state borders for geographic reference.</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid-full">
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Multi-metric state synthesis: Coastal drowning risk (red) vs. volunteer patrol capacity (blue)</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="death">Read across Tasmania’s top row:</span> #1 in drowning rate (1.74) and remoteness (90% &gt;1 km), but near bottom in patrol capacity.</p>
+            <p><span class="service">Read across New South Wales:</span> #1 in volunteer hours (685k), patrolling members (20,878), and clubs (129), with the lowest remoteness share (62%).</p>
+          </div>
+          <div id="heatmap" class="chart"></div>
+          <figcaption>Ranked Highlight Table (Heatmap). Colour luminance encodes within-column rank (1.0 = highest in column): wine red for risk columns and patrol blue for service capacity columns. Exact reported values are printed inside every cell.</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid-pair">
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Rescue workload intensity per 10,000 volunteer patrol hours</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="service">Queensland (73.8) &amp; NSW (65.5)</span> record the highest rescue intensity above the 60.6 national average.</p>
+            <p><span class="service">South Australia (12.1)</span> records 86 rescues across 71,288 volunteer hours.</p>
+          </div>
+          <div id="hours-ratio" class="chart"></div>
+          <figcaption>Lollipop chart with national benchmark rule (60.6 rescues per 10k volunteer hours). State rescue totals include volunteer surf lifesavers and paid lifeguards. NT (37 rescues / 1,759 hrs = 210.3) is noted in text due to its tiny denominator.</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Distance gap: Deaths more than 1 km from a service vs. within 1 km (%)</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="death">69% nationally (104 of 150 deaths)</span> happened more than 1 km from any SLS service.</p>
+            <p><span class="death">Tasmania (90% vs. 10%)</span> shows the widest gap between remote and nearby fatalities.</p>
+          </div>
+          <div id="distance" class="chart"></div>
+          <figcaption>Connected dumbbell (gap) chart comparing the percentage of coastal drowning deaths occurring &gt;1 km from a surf life saving service (red circle) against those within 1 km (grey circle).</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- SECTION 04 -->
+    <section class="section" id="place">
+      <div class="section-header">
+        <div class="section-title-col">
+          <p class="kicker">Section 04 · Locations, Activities &amp; Demographic Disparity</p>
+          <h2>Beaches, swimming, and men account for the overwhelming majority of coastal drowning deaths.</h2>
+        </div>
+        <div class="prose">
+          <p>
+            Where and how do fatal incidents unfold? More than half of all coastal drowning deaths occurred at a <span class="death">beach (56.0%, 84 of 150 deaths)</span>, followed by offshore waters (18.7%, 28), rocky foreshores or cliffs (12.7%, 19), and other coastal waters (12.7%, 19). Among the 84 beach fatalities, <span class="death">29 (34.5%) were confirmed in a rip current</span>, 20 (23.8%) did not involve a rip, and 35 (41.7%) had no witness record to confirm or rule out a rip. By activity, <span class="death">swimming and wading jumped to 40.7% (61 deaths)</span>—up sharply from its ten-year share of 32.2%—while boating dropped from 19.0% to 10.7% (16 deaths).
+          </p>
+          <p>
+            Finally, the demographic contrast between who patrols the beach and who drowns is profound. Active patrolling members across SLSA clubs are approaching gender parity (<span class="service">59.7% male, 40.2% female</span>). Yet <span class="death">129 of the 150 people who drowned were men (86.0%)</span> versus 21 women (14.0%)—a male mortality rate of 0.97 per 100,000 compared with 0.15 for women (<span class="death">6.5 times higher</span>).
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-pair">
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Part-to-whole hierarchy of drowning locations and beach rip involvement</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="death">56.0% (84 of 150)</span> drowned at beaches; <span class="death">34.5% of beach deaths (29)</span> had a confirmed rip.</p>
+            <p><span class="death">41.7% of beach deaths (35)</span> were unwitnessed with unknown rip status.</p>
+          </div>
+          <div id="sunburst" class="chart chart-center"></div>
+          <figcaption>Two-ring hierarchical sunburst chart. Inner ring encodes coastal location (% and count of all 150 deaths); outer ring subdivides the 84 beach deaths by rip current status.</figcaption>
+        </figure>
+
+        <div class="stack-col">
+          <figure class="figure">
+            <div class="figure-head">
+              <h3>2023/24 coastal drowning deaths by activity (count &amp; share of 150)</h3>
+            </div>
+            <div id="activity-counts" class="chart"></div>
+            <figcaption>Horizontal bar chart of 2023/24 fatalities by primary activity, showing exact counts and relative percentages.</figcaption>
+          </figure>
+
+          <figure class="figure">
+            <div class="figure-head">
+              <h3>Shift in activity share: 10-year baseline (2014–24) vs. 2023/24</h3>
+            </div>
+            <div class="onchart">
+              <p><span class="death">Swimming &amp; wading: 32.2% → 40.7%</span> (411 of 1,276 vs. 61 of 150).</p>
+              <p><span class="service">Boating: 19.0% → 10.7%</span> (click legend items below to filter).</p>
+            </div>
+            <div id="slope-activity" class="chart"></div>
+            <figcaption>Interactive legend-bound slope chart comparing relative percentage shares between the 2014–24 decade (n = 1,276) and 2023/24 (n = 150).</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="grid-pair">
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Pictorial ISOTYPE of 150 coastal drowning deaths (1 human figure = 3 deaths)</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="death">43 male figures = 129 men</span> (0.97 deaths per 100,000 men).</p>
+            <p><span class="death">7 female figures = 21 women</span> (0.15 per 100,000 women — a 6.5× rate gap).</p>
+          </div>
+          <div id="isotype" class="chart chart-center"></div>
+          <figcaption>Pictorial unit chart (ISOTYPE). Each human silhouette represents 3 coastal drowning deaths in 2023/24 (43 × 3 = 129 men; 7 × 3 = 21 women).</figcaption>
+        </figure>
+
+        <figure class="figure">
+          <div class="figure-head">
+            <h3>Gender balance: Active patrolling members vs. coastal drowning deaths (100% share)</h3>
+          </div>
+          <div class="onchart">
+            <p><span class="service">Patrolling members (n = 45,236):</span> 59.7% male vs. 40.2% female (near parity).</p>
+            <p><span class="death">Drowning deaths (n = 150):</span> 86.0% male vs. 14.0% female.</p>
+          </div>
+          <div id="sex-share" class="chart"></div>
+          <figcaption>100% normalised stacked bar chart contrasting gender proportions in SLSA patrolling workforce against 2023/24 coastal drowning fatalities. Dashed line marks 50% parity.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <footer class="sources">
+      <h2>Data sources, cartographic methodology &amp; authorship</h2>
+      <div class="footer-grid">
+        <div>
+          <h3>Primary datasets (combined from 3 official sources)</h3>
+          <ul>
+            <li>
+              <strong>Source 1 — Surf Life Saving Australia (2024):</strong> <em>National Coastal Safety Report 2024 (NCSR 2024)</em> &amp; <em>SLSA Annual Report 2023/24</em> (reporting period 1 July 2023 – 30 June 2024, plus 2014–24 ten-year series). Provides national and state drowning counts, rates, activity/location breakdowns, rescues (8,857), preventative actions (2,482,013), volunteer patrol hours (1,462,533), patrolling members (45,236), and 315 club records. <a href="https://www.surflifesaving.com.au/wp-content/uploads/sites/2/2024/10/NCSR24_Digital.pdf" target="_blank" rel="noopener">surflifesaving.com.au</a>
+            </li>
+            <li>
+              <strong>Source 2 — Australian Bureau of Statistics (2024):</strong> <em>National, State and Territory Population (June 2024)</em>. Used to standardise state and gender mortality counts into per-capita rates per 100,000 residents. <a href="https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population" target="_blank" rel="noopener">abs.gov.au</a>
+            </li>
+            <li>
+              <strong>Source 3 — ABS / Geoscience Australia Spatial Geography:</strong> Simplified Australian State and Territory digital boundaries (<a href="https://github.com/rowanhogan/australian-states" target="_blank" rel="noopener">australian-states GeoJSON</a>) and Geoscience Australia coastline length statistics (used to derive club density per 1,000 km of coastline).
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cartographic design &amp; authorship metadata</h3>
+          <ul>
+            <li>
+              <strong>Map Projection:</strong> All three map idioms use <strong>EPSG:3577 (GDA94 / Australian Albers Equal-Area Conic)</strong> with standard parallels at 18°S and 36°S and central meridian at 132°E. Preserving true relative area is essential for continental choropleth and dot/symbol comparisons; Web Mercator is intentionally avoided.
+            </li>
+            <li>
+              <strong>Custom Non-Contiguous Cartogram:</strong> Computed in Python (`scripts/build_geometry.py`) by projecting state polygons into EPSG:3577, computing each state’s true Albers area, and scaling vertices around each state’s centroid so that drawn polygon area is strictly proportional to active patrolling members.
+            </li>
+            <li>
+              <strong>Author &amp; Date:</strong> Created by <strong>Lim Chi Jian</strong> (Student ID: 35040424 · Studio Group 05), Monash University FIT3179 Data Visualisation, <strong>October 2026</strong>. Generative AI tools were used to assist with Vega-Lite specification scripting, layout styling, and copy editing; all statistics were verified against the official reports cited above.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </article>
+  <script src="js/embed.js?v=21"></script>
+</body>
+</html>
