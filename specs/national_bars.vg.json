@@ -1,0 +1,184 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "2023/24 rescues and preventative actions against their ten-year averages.",
+  "data": {
+    "url": "data/national_bars.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "padding": {
+    "left": 14,
+    "right": 18,
+    "top": 8,
+    "bottom": 8
+  },
+  "facet": {
+    "row": {
+      "field": "measure",
+      "title": null,
+      "sort": [
+        "Preventative actions",
+        "Rescues"
+      ],
+      "header": {
+        "labelOrient": "top",
+        "labelAnchor": "start",
+        "labelPadding": 6
+      }
+    }
+  },
+  "spec": {
+    "width": 350,
+    "height": 74,
+    "encoding": {
+      "y": {
+        "field": "period",
+        "type": "nominal",
+        "sort": [
+          "Ten-year average",
+          "2023/24"
+        ],
+        "title": null,
+        "axis": {
+          "domain": false,
+          "ticks": false,
+          "labelFontSize": 12.5
+        }
+      },
+      "x": {
+        "field": "value",
+        "type": "quantitative",
+        "title": null,
+        "scale": {
+          "zero": true,
+          "nice": true
+        },
+        "axis": {
+          "labelExpr": "datum.value >= 1000000 ? format(datum.value/1000000, '.1f') + 'M' : format(datum.value, ',')",
+          "tickCount": 4,
+          "labelFontSize": 11.5
+        }
+      }
+    },
+    "layer": [
+      {
+        "mark": {
+          "type": "bar",
+          "height": {
+            "band": 0.64
+          },
+          "cornerRadiusEnd": 2
+        },
+        "encoding": {
+          "color": {
+            "field": "period",
+            "type": "nominal",
+            "legend": null,
+            "scale": {
+              "domain": [
+                "Ten-year average",
+                "2023/24"
+              ],
+              "range": [
+                "#9e958b",
+                "#1d4e73"
+              ]
+            }
+          },
+          "tooltip": [
+            {
+              "field": "measure",
+              "type": "nominal",
+              "title": "Activity"
+            },
+            {
+              "field": "period",
+              "type": "nominal",
+              "title": "Period"
+            },
+            {
+              "field": "value",
+              "type": "quantitative",
+              "title": "Count",
+              "format": ","
+            }
+          ]
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "right",
+          "dx": -8,
+          "fontSize": 12.5,
+          "fontWeight": 600,
+          "font": "Source Sans 3, sans-serif",
+          "color": "#ffffff"
+        },
+        "encoding": {
+          "text": {
+            "field": "value",
+            "type": "quantitative",
+            "format": ","
+          }
+        }
+      }
+    ]
+  },
+  "resolve": {
+    "scale": {
+      "x": "independent"
+    }
+  },
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

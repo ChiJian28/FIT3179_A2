@@ -1,0 +1,303 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "True bullet chart comparing state coastal drowning rates against qualitative risk tiers, 10-year average ticks, and the 0.56 national rate.",
+  "width": 360,
+  "height": 270,
+  "padding": {
+    "left": 12,
+    "right": 18,
+    "top": 10,
+    "bottom": 10
+  },
+  "data": {
+    "url": "data/bullets.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "sort": [
+        "Tasmania",
+        "New South Wales",
+        "Western Australia",
+        "South Australia",
+        "Queensland",
+        "Victoria"
+      ],
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12.5
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#e2bab2",
+        "height": {
+          "band": 0.78
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "band_high",
+          "type": "quantitative",
+          "title": "Deaths per 100,000 people (<0.45 low \u00b7 0.45\u20130.75 mod \u00b7 >0.75 high)",
+          "scale": {
+            "zero": true,
+            "domain": [
+              0,
+              2.0
+            ]
+          },
+          "axis": {
+            "values": [
+              0,
+              0.4,
+              0.56,
+              0.8,
+              1.2,
+              1.6,
+              2.0
+            ],
+            "format": ".2f"
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#edd5cf",
+        "height": {
+          "band": 0.78
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "band_mid",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#f7ece9",
+        "height": {
+          "band": 0.78
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "band_low",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "color": "#7a1f1c",
+        "height": {
+          "band": 0.42
+        },
+        "cornerRadiusEnd": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "rate",
+            "type": "quantitative",
+            "title": "2023/24 rate (per 100k)",
+            "format": ".2f"
+          },
+          {
+            "field": "rate_22_23",
+            "type": "quantitative",
+            "title": "2022/23 rate (per 100k)",
+            "format": ".2f"
+          },
+          {
+            "field": "rate_10yr",
+            "type": "quantitative",
+            "title": "10-year avg rate",
+            "format": ".2f"
+          },
+          {
+            "field": "deaths",
+            "type": "quantitative",
+            "title": "2023/24 deaths"
+          },
+          {
+            "field": "national",
+            "type": "quantitative",
+            "title": "National rate",
+            "format": ".2f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "tick",
+        "color": "#1c2430",
+        "thickness": 2.2,
+        "size": 22
+      },
+      "encoding": {
+        "x": {
+          "field": "rate_10yr",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "rate_10yr",
+            "type": "quantitative",
+            "title": "10-year average rate (tick mark)",
+            "format": ".2f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#1c2430",
+        "strokeWidth": 1.8,
+        "strokeDash": [
+          5,
+          3
+        ]
+      },
+      "encoding": {
+        "x": {
+          "datum": 0.56
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 7,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "x": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "rate",
+          "type": "quantitative",
+          "format": ".2f"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "note": "National: 0.56 \u2502 Ticks = 10-yr avg"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 8,
+        "dy": 212,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "x": {
+          "datum": 0.56
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "note",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

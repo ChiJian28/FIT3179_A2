@@ -1,0 +1,289 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Interactive 10-year overview-and-detail view with interval brush linking preventative actions and coastal drowning deaths.",
+  "data": {
+    "url": "data/decade_trends.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "padding": {
+    "left": 10,
+    "right": 12,
+    "top": 8,
+    "bottom": 8
+  },
+  "vconcat": [
+    {
+      "width": 430,
+      "height": 175,
+      "title": {
+        "text": "Annual coastal drowning deaths (dashed line = 128/yr mean)",
+        "fontSize": 12.5
+      },
+      "layer": [
+        {
+          "transform": [
+            {
+              "filter": {
+                "param": "year_brush"
+              }
+            }
+          ],
+          "mark": {
+            "type": "bar",
+            "width": {
+              "band": 0.58
+            },
+            "cornerRadiusEnd": 2
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "ordinal",
+              "title": null,
+              "axis": {
+                "labelAngle": -25,
+                "labelFontSize": 11.5
+              }
+            },
+            "y": {
+              "field": "deaths",
+              "type": "quantitative",
+              "title": "Deaths",
+              "scale": {
+                "zero": true,
+                "domain": [
+                  0,
+                  175
+                ]
+              },
+              "axis": {
+                "tickCount": 4
+              }
+            },
+            "color": {
+              "condition": {
+                "test": "datum.deaths >= 128",
+                "value": "#7a1f1c"
+              },
+              "value": "#b7aea4"
+            },
+            "tooltip": [
+              {
+                "field": "year",
+                "type": "nominal",
+                "title": "Reporting year"
+              },
+              {
+                "field": "deaths",
+                "type": "quantitative",
+                "title": "Coastal drowning deaths"
+              },
+              {
+                "field": "rate",
+                "type": "quantitative",
+                "title": "Rate per 100,000",
+                "format": ".2f"
+              },
+              {
+                "field": "preventative",
+                "type": "quantitative",
+                "title": "Preventative actions",
+                "format": ","
+              },
+              {
+                "field": "rescues",
+                "type": "quantitative",
+                "title": "Rescues",
+                "format": ","
+              },
+              {
+                "field": "notable_event",
+                "type": "nominal",
+                "title": "Context"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": {
+                "param": "year_brush"
+              }
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "dy": -7,
+            "fontSize": 11.5,
+            "fontWeight": 600,
+            "font": "Source Sans 3, sans-serif",
+            "color": "#1c2430"
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "ordinal"
+            },
+            "y": {
+              "field": "deaths",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "deaths",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "rule",
+            "color": "#7a1f1c",
+            "strokeWidth": 1.5,
+            "strokeDash": [
+              5,
+              4
+            ]
+          },
+          "encoding": {
+            "y": {
+              "datum": 127.6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "height": 78,
+      "title": {
+        "text": "Preventative actions (millions) \u2014 drag horizontally to filter years",
+        "fontSize": 12,
+        "color": "#1d4e73"
+      },
+      "params": [
+        {
+          "name": "year_brush",
+          "select": {
+            "type": "interval",
+            "encodings": [
+              "x"
+            ]
+          }
+        }
+      ],
+      "mark": {
+        "type": "area",
+        "color": "#d4e3ee",
+        "opacity": 0.7,
+        "line": {
+          "color": "#1d4e73",
+          "strokeWidth": 2
+        },
+        "point": {
+          "filled": true,
+          "color": "#1d4e73",
+          "size": 40
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": null,
+          "axis": {
+            "labelAngle": -25,
+            "labelFontSize": 11.5
+          }
+        },
+        "y": {
+          "field": "preventative_m",
+          "type": "quantitative",
+          "title": "Actions (M)",
+          "scale": {
+            "zero": true,
+            "domain": [
+              0,
+              2.8
+            ]
+          },
+          "axis": {
+            "tickCount": 3,
+            "format": ".1f"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "type": "nominal",
+            "title": "Season"
+          },
+          {
+            "field": "preventative",
+            "type": "quantitative",
+            "title": "Preventative actions",
+            "format": ","
+          },
+          {
+            "field": "rescues",
+            "type": "quantitative",
+            "title": "Rescues",
+            "format": ","
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

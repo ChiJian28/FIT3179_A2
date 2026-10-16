@@ -1,0 +1,655 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Interactive slope chart of state coastal drowning rates from 2022/23 to 2023/24.",
+  "width": 440,
+  "height": 340,
+  "padding": {
+    "left": 14,
+    "right": 24,
+    "top": 10,
+    "bottom": 10
+  },
+  "data": {
+    "url": "data/slope_states.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum.code + '  ' + format(datum.rate, '.2f') + ' (n=' + datum.deaths + ')'",
+      "as": "calc_label"
+    }
+  ],
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "state_hover",
+          "select": {
+            "type": "point",
+            "fields": [
+              "state"
+            ],
+            "on": "mouseover",
+            "clear": "mouseout"
+          }
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2.6
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ],
+          "title": null,
+          "scale": {
+            "padding": 0.35
+          },
+          "axis": {
+            "labelFontSize": 13,
+            "labelFontWeight": 600,
+            "labelAngle": 0
+          }
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative",
+          "title": "Deaths per 100,000 people",
+          "scale": {
+            "zero": true,
+            "domain": [
+              0,
+              1.9
+            ]
+          },
+          "axis": {
+            "tickCount": 5
+          }
+        },
+        "detail": {
+          "field": "state",
+          "type": "nominal"
+        },
+        "color": {
+          "condition": {
+            "param": "state_hover",
+            "empty": false,
+            "value": "#7a1f1c"
+          },
+          "field": "emphasis",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              0,
+              1
+            ],
+            "range": [
+              "#c6b7b2",
+              "#7a1f1c"
+            ]
+          },
+          "legend": null
+        },
+        "opacity": {
+          "condition": {
+            "param": "state_hover",
+            "value": 1
+          },
+          "value": 0.88
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "year",
+            "type": "nominal",
+            "title": "Year"
+          },
+          {
+            "field": "rate",
+            "type": "quantitative",
+            "title": "Rate per 100k",
+            "format": ".2f"
+          },
+          {
+            "field": "deaths",
+            "type": "quantitative",
+            "title": "Coastal deaths"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 76
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "emphasis",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              0,
+              1
+            ],
+            "range": [
+              "#9e8f89",
+              "#7a1f1c"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "year",
+            "type": "nominal",
+            "title": "Year"
+          },
+          {
+            "field": "rate",
+            "type": "quantitative",
+            "title": "Rate per 100k",
+            "format": ".2f"
+          },
+          {
+            "field": "deaths",
+            "type": "quantitative",
+            "title": "Coastal deaths"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'Tas' && datum.year == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 0,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#7a1f1c"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'NSW' && datum.year == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": -8,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#7a1f1c"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'WA' && datum.year == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 10,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'SA' && datum.year == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": -8,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'Qld' && datum.year == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 2,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'Vic' && datum.year == '2023/24'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 12,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'WA' && datum.year == '2022/23'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": -4,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "color": "#786f66"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'NSW' && datum.year == '2022/23'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": -8,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "color": "#786f66"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'Tas' && datum.year == '2022/23'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": 4,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "color": "#786f66"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'Qld' && datum.year == '2022/23'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": 12,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "color": "#786f66"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'SA' && datum.year == '2022/23'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": -6,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "color": "#786f66"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.code == 'Vic' && datum.year == '2022/23'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": 10,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "color": "#786f66"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "sort": [
+            "2022/23",
+            "2023/24"
+          ]
+        },
+        "y": {
+          "field": "rate",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "calc_label",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

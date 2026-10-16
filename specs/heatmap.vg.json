@@ -1,0 +1,240 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Highlight table comparing coastal risk rank (wine red) and volunteer patrol capacity rank (sea blue) across states.",
+  "width": 780,
+  "height": 300,
+  "padding": {
+    "left": 14,
+    "right": 16,
+    "top": 8,
+    "bottom": 8
+  },
+  "data": {
+    "url": "data/heatmap.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "encoding": {
+    "x": {
+      "field": "metric",
+      "type": "nominal",
+      "sort": [
+        "Deaths per 100k",
+        "Deaths >1 km away",
+        "Volunteer hours",
+        "Patrolling members",
+        "SLS clubs"
+      ],
+      "title": null,
+      "axis": {
+        "orient": "top",
+        "labelAngle": 0,
+        "labelFontSize": 12.5,
+        "labelFontWeight": 600,
+        "labelLimit": 160,
+        "domain": false,
+        "ticks": false
+      }
+    },
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "sort": [
+        "Tasmania",
+        "New South Wales",
+        "Western Australia",
+        "South Australia",
+        "Queensland",
+        "Victoria",
+        "Northern Territory"
+      ],
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12.5
+      }
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.category == 'Risk'"
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "stroke": "#fffcf8",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "color": {
+          "field": "shade",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              1
+            ],
+            "range": [
+              "#f5ebe8",
+              "#7a1f1c"
+            ]
+          },
+          "legend": {
+            "title": "Within-column rank (0 = low, 1 = high)",
+            "orient": "bottom",
+            "gradientLength": 140,
+            "values": [
+              0,
+              0.5,
+              1
+            ],
+            "format": ".1f"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "metric",
+            "type": "nominal",
+            "title": "Risk metric"
+          },
+          {
+            "field": "label",
+            "type": "nominal",
+            "title": "Reported value"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.category == 'Service'"
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "stroke": "#fffcf8",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "color": {
+          "field": "shade",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              1
+            ],
+            "range": [
+              "#ebf1f5",
+              "#1d4e73"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "metric",
+            "type": "nominal",
+            "title": "Service metric"
+          },
+          {
+            "field": "label",
+            "type": "nominal",
+            "title": "Reported value"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12.5,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.shade >= 0.58",
+            "value": "#ffffff"
+          },
+          "value": "#1c2430"
+        }
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent"
+    }
+  },
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}

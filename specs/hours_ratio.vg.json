@@ -1,0 +1,230 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Lollipop chart of rescues per 10,000 volunteer patrol hours with national benchmark rule.",
+  "width": 360,
+  "height": 250,
+  "padding": {
+    "left": 12,
+    "right": 20,
+    "top": 10,
+    "bottom": 10
+  },
+  "data": {
+    "url": "data/hours_ratio.csv?v=20",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "sort": [
+        "Queensland",
+        "New South Wales",
+        "Western Australia",
+        "Victoria",
+        "Tasmania",
+        "South Australia"
+      ],
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelFontSize": 12.5
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#1d4e73",
+        "strokeWidth": 3
+      },
+      "encoding": {
+        "x": {
+          "field": "per_10k",
+          "type": "quantitative",
+          "title": "Rescues per 10,000 volunteer patrol hours",
+          "scale": {
+            "zero": true,
+            "domain": [
+              0,
+              88
+            ]
+          },
+          "axis": {
+            "tickCount": 5
+          }
+        },
+        "x2": {
+          "datum": 0
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "color": "#1d4e73",
+        "size": 150,
+        "opacity": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "per_10k",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "per_10k",
+            "type": "quantitative",
+            "title": "Rescues per 10k hours",
+            "format": ".1f"
+          },
+          {
+            "field": "rescues",
+            "type": "quantitative",
+            "title": "Total rescues",
+            "format": ","
+          },
+          {
+            "field": "hours",
+            "type": "quantitative",
+            "title": "Volunteer patrol hours",
+            "format": ","
+          },
+          {
+            "field": "clubs",
+            "type": "quantitative",
+            "title": "SLS clubs"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#8a6232",
+        "strokeWidth": 1.6,
+        "strokeDash": [
+          5,
+          3
+        ]
+      },
+      "encoding": {
+        "x": {
+          "datum": 60.6
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "label": "National avg: 60.6"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -6,
+        "dy": 102,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "color": "#8a6232"
+      },
+      "encoding": {
+        "x": {
+          "datum": 60.6
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 12.5,
+        "fontWeight": 600,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "x": {
+          "field": "per_10k",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "per_10k",
+          "type": "quantitative",
+          "format": ".1f"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "#fffcf8",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}
