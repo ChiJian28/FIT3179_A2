@@ -1,0 +1,245 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Proportional symbol map. Circle area encodes volunteer patrol hours across 315 SLS clubs.",
+  "width": 470,
+  "height": 420,
+  "padding": {
+    "left": 10,
+    "right": 10,
+    "top": 10,
+    "bottom": 10
+  },
+  "projection": {
+    "type": "conicEqualArea",
+    "rotate": [
+      -132,
+      0
+    ],
+    "parallels": [
+      -18,
+      -36
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/au-states.geojson?v=20",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#f7f4ee",
+        "stroke": "#ffffff",
+        "strokeWidth": 1.2
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv?v=20",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/labels.csv?v=20",
+              "format": {
+                "type": "csv"
+              }
+            },
+            "key": "state",
+            "fields": [
+              "lon",
+              "lat"
+            ]
+          }
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "opacity": 0.84,
+        "color": "#1d4e73",
+        "stroke": "#ffffff",
+        "strokeWidth": 1.4
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "hours",
+          "type": "quantitative",
+          "scale": {
+            "type": "linear",
+            "range": [
+              24,
+              2100
+            ],
+            "zero": true
+          },
+          "title": "Volunteer patrol hours",
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "values": [
+              50000,
+              200000,
+              400000,
+              650000
+            ],
+            "format": ",",
+            "labelExpr": "format(datum.value, ',')"
+          }
+        },
+        "order": {
+          "field": "hours",
+          "type": "quantitative",
+          "sort": "descending"
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "hours",
+            "type": "quantitative",
+            "title": "Volunteer patrol hours",
+            "format": ","
+          },
+          {
+            "field": "members",
+            "type": "quantitative",
+            "title": "Patrolling members",
+            "format": ","
+          },
+          {
+            "field": "clubs",
+            "type": "quantitative",
+            "title": "SLS clubs"
+          },
+          {
+            "field": "rescues",
+            "type": "quantitative",
+            "title": "Rescues (2023/24)",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/states.csv?v=20",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/labels.csv?v=20",
+              "format": {
+                "type": "csv"
+              }
+            },
+            "key": "state",
+            "fields": [
+              "lon",
+              "lat"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.code + ' \u00b7 ' + format(datum.hours, ',')",
+          "as": "state_hrs"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "Source Sans 3, sans-serif",
+        "fontSize": 11.5,
+        "fontWeight": 600,
+        "dy": -12,
+        "color": "#1c2430"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "state_hrs",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "background": "#d8e6ee",
+    "font": "Source Sans 3, sans-serif",
+    "axis": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12.5,
+      "titleFontSize": 12.5,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "domainColor": "#bfb6aa",
+      "tickColor": "#bfb6aa",
+      "grid": false,
+      "labelPadding": 6,
+      "titlePadding": 8,
+      "labelLimit": 220
+    },
+    "legend": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "titleFontWeight": 600,
+      "labelColor": "#1c2430",
+      "titleColor": "#1c2430",
+      "symbolStrokeWidth": 0,
+      "labelLimit": 240
+    },
+    "header": {
+      "labelFont": "Source Sans 3, sans-serif",
+      "titleFont": "Source Sans 3, sans-serif",
+      "labelFontSize": 13.5,
+      "labelColor": "#1c2430",
+      "labelFontWeight": 600
+    },
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "font": "Source Sans 3, sans-serif",
+      "color": "#1c2430",
+      "fontSize": 13.5,
+      "fontWeight": 600,
+      "subtitleFont": "Source Sans 3, sans-serif",
+      "subtitleFontSize": 11.5,
+      "subtitleColor": "#786f66",
+      "anchor": "start"
+    }
+  }
+}
