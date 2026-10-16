@@ -1,0 +1,36 @@
+state,metric,metric_order,category,value,label,rank,has_value,shade
+Tasmania,Deaths per 100k,1,Risk,1.74,1.74,6,1,1.000
+Tasmania,Deaths >1 km away,2,Risk,90,90%,6,1,1.000
+Tasmania,Volunteer hours,3,Service,21773,"21,773",2,1,0.167
+Tasmania,Patrolling members,4,Service,792,792,2,1,0.167
+Tasmania,SLS clubs,5,Service,15,15,2,1,0.167
+New South Wales,Deaths per 100k,1,Risk,0.73,0.73,5,1,0.800
+New South Wales,Deaths >1 km away,2,Risk,62,62%,1,1,0.080
+New South Wales,Volunteer hours,3,Service,685090,"685,090",7,1,1.000
+New South Wales,Patrolling members,4,Service,20878,"20,878",7,1,1.000
+New South Wales,SLS clubs,5,Service,129,129,7,1,1.000
+Western Australia,Deaths per 100k,1,Risk,0.69,0.69,4,1,0.600
+Western Australia,Deaths >1 km away,2,Risk,75,75%,4,1,0.600
+Western Australia,Volunteer hours,3,Service,109863,"109,863",4,1,0.500
+Western Australia,Patrolling members,4,Service,5128,"5,128",4,1,0.500
+Western Australia,SLS clubs,5,Service,31,31,4,1,0.500
+South Australia,Deaths per 100k,1,Risk,0.48,0.48,3,1,0.400
+South Australia,Deaths >1 km away,2,Risk,78,78%,5,1,0.800
+South Australia,Volunteer hours,3,Service,71288,"71,288",3,1,0.333
+South Australia,Patrolling members,4,Service,2641,"2,641",3,1,0.333
+South Australia,SLS clubs,5,Service,23,23,3,1,0.333
+Queensland,Deaths per 100k,1,Risk,0.42,0.42,2,1,0.220
+Queensland,Deaths >1 km away,2,Risk,70,70%,3,1,0.400
+Queensland,Volunteer hours,3,Service,356662,"356,662",6,1,0.833
+Queensland,Patrolling members,4,Service,9072,"9,072",6,1,0.833
+Queensland,SLS clubs,5,Service,57,57,6,1,0.833
+Victoria,Deaths per 100k,1,Risk,0.38,0.38,1,1,0.080
+Victoria,Deaths >1 km away,2,Risk,69,69%,2,1,0.220
+Victoria,Volunteer hours,3,Service,216098,"216,098",5,1,0.667
+Victoria,Patrolling members,4,Service,6630,"6,630",5,1,0.667
+Victoria,SLS clubs,5,Service,57,57,6,1,0.833
+Northern Territory,Deaths per 100k,1,Risk,,5-yr: 0.39,,0,0.000
+Northern Territory,Deaths >1 km away,2,Risk,,5-yr: 86%,,0,0.000
+Northern Territory,Volunteer hours,3,Service,1759,"1,759",1,1,0.050
+Northern Territory,Patrolling members,4,Service,95,95,1,1,0.050
+Northern Territory,SLS clubs,5,Service,3,3,1,1,0.050

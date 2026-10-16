@@ -1,0 +1,7 @@
+state,code,rate,rate_22_23,rate_10yr,deaths,national,band_low,band_mid,band_high,clubs_per_1000km
+Tasmania,Tas,1.74,0.52,0.88,10,0.56,0.45,0.75,2.0,5.3
+New South Wales,NSW,0.73,0.57,0.63,61,0.56,0.45,0.75,2.0,60.4
+Western Australia,WA,0.69,0.72,0.74,20,0.56,0.45,0.75,2.0,2.4
+South Australia,SA,0.48,0.32,0.39,9,0.56,0.45,0.75,2.0,6.0
+Queensland,Qld,0.42,0.49,0.48,23,0.56,0.45,0.75,2.0,8.2
+Victoria,Vic,0.38,0.28,0.32,26,0.56,0.45,0.75,2.0,30.5

@@ -1,0 +1,13 @@
+state,code,year,rate,deaths,emphasis,direction,left_label,right_label
+Tasmania,Tas,2022/23,0.52,3,1,Increased,Tas 0.52 (3),Tas  1.74 (3 → 10 deaths)
+New South Wales,NSW,2022/23,0.57,48,1,Increased,NSW 0.57 (48),NSW  0.73 (48 → 61 deaths)
+Western Australia,WA,2022/23,0.72,21,0,Decreased,WA 0.72 (21),WA  0.69 (21 → 20)
+South Australia,SA,2022/23,0.32,6,0,Increased,SA 0.32 (6),SA  0.48 (6 → 9)
+Queensland,Qld,2022/23,0.49,27,0,Decreased,Qld 0.49 (27),Qld  0.42 (27 → 23)
+Victoria,Vic,2022/23,0.28,19,0,Increased,Vic 0.28 (19),Vic  0.38 (19 → 26)
+Tasmania,Tas,2023/24,1.74,10,1,Increased,Tas 0.52 (3),Tas  1.74 (3 → 10 deaths)
+New South Wales,NSW,2023/24,0.73,61,1,Increased,NSW 0.57 (48),NSW  0.73 (48 → 61 deaths)
+Western Australia,WA,2023/24,0.69,20,0,Decreased,WA 0.72 (21),WA  0.69 (21 → 20)
+South Australia,SA,2023/24,0.48,9,0,Increased,SA 0.32 (6),SA  0.48 (6 → 9)
+Queensland,Qld,2023/24,0.42,23,0,Decreased,Qld 0.49 (27),Qld  0.42 (27 → 23)
+Victoria,Vic,2023/24,0.38,26,0,Increased,Vic 0.28 (19),Vic  0.38 (19 → 26)
