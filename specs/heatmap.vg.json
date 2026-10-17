@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Highlight table comparing coastal risk rank (wine red) and volunteer patrol capacity rank (sea blue) across states.",
+  "description": "Ten-year heatmap of coastal drowning rates per 100,000 people across Australian states (2014/15\u20132023/24) with selective milestone annotations.",
   "width": 780,
-  "height": 300,
+  "height": 290,
   "padding": {
     "left": 14,
     "right": 16,
@@ -10,29 +10,20 @@
     "bottom": 8
   },
   "data": {
-    "url": "data/heatmap.csv?v=20",
+    "url": "data/heatmap.csv?v=30",
     "format": {
       "type": "csv"
     }
   },
   "encoding": {
     "x": {
-      "field": "metric",
-      "type": "nominal",
-      "sort": [
-        "Deaths per 100k",
-        "Deaths >1 km away",
-        "Volunteer hours",
-        "Patrolling members",
-        "SLS clubs"
-      ],
-      "title": null,
+      "field": "fy",
+      "type": "ordinal",
+      "title": "Reporting season (1 July \u2013 30 June)",
       "axis": {
-        "orient": "top",
+        "orient": "bottom",
         "labelAngle": 0,
-        "labelFontSize": 12.5,
-        "labelFontWeight": 600,
-        "labelLimit": 160,
+        "labelFontSize": 12,
         "domain": false,
         "ticks": false
       }
@@ -42,12 +33,11 @@
       "type": "nominal",
       "sort": [
         "Tasmania",
-        "New South Wales",
         "Western Australia",
-        "South Australia",
+        "New South Wales",
         "Queensland",
-        "Victoria",
-        "Northern Territory"
+        "South Australia",
+        "Victoria"
       ],
       "title": null,
       "axis": {
@@ -59,11 +49,6 @@
   },
   "layer": [
     {
-      "transform": [
-        {
-          "filter": "datum.category == 'Risk'"
-        }
-      ],
       "mark": {
         "type": "rect",
         "stroke": "#fffcf8",
@@ -71,28 +56,29 @@
       },
       "encoding": {
         "color": {
-          "field": "shade",
+          "field": "rate",
           "type": "quantitative",
           "scale": {
+            "type": "linear",
             "domain": [
-              0,
-              1
+              0.2,
+              0.6,
+              1.1,
+              1.75
             ],
             "range": [
-              "#f5ebe8",
+              "#f6ede8",
+              "#df9a8c",
+              "#b3443c",
               "#7a1f1c"
             ]
           },
           "legend": {
-            "title": "Within-column rank (0 = low, 1 = high)",
+            "title": "Deaths per 100,000 people",
             "orient": "bottom",
-            "gradientLength": 140,
-            "values": [
-              0,
-              0.5,
-              1
-            ],
-            "format": ".1f"
+            "direction": "horizontal",
+            "gradientLength": 200,
+            "format": ".2f"
           }
         },
         "tooltip": [
@@ -102,14 +88,20 @@
             "title": "State"
           },
           {
-            "field": "metric",
+            "field": "fy",
             "type": "nominal",
-            "title": "Risk metric"
+            "title": "Financial year"
           },
           {
-            "field": "label",
-            "type": "nominal",
-            "title": "Reported value"
+            "field": "rate",
+            "type": "quantitative",
+            "title": "Rate per 100,000",
+            "format": ".2f"
+          },
+          {
+            "field": "deaths",
+            "type": "quantitative",
+            "title": "Coastal drowning deaths"
           }
         ]
       }
@@ -117,64 +109,23 @@
     {
       "transform": [
         {
-          "filter": "datum.category == 'Service'"
+          "filter": "datum.note != '' && datum.note != null"
         }
       ],
       "mark": {
-        "type": "rect",
-        "stroke": "#fffcf8",
-        "strokeWidth": 2
-      },
-      "encoding": {
-        "color": {
-          "field": "shade",
-          "type": "quantitative",
-          "scale": {
-            "domain": [
-              0,
-              1
-            ],
-            "range": [
-              "#ebf1f5",
-              "#1d4e73"
-            ]
-          },
-          "legend": null
-        },
-        "tooltip": [
-          {
-            "field": "state",
-            "type": "nominal",
-            "title": "State"
-          },
-          {
-            "field": "metric",
-            "type": "nominal",
-            "title": "Service metric"
-          },
-          {
-            "field": "label",
-            "type": "nominal",
-            "title": "Reported value"
-          }
-        ]
-      }
-    },
-    {
-      "mark": {
         "type": "text",
         "font": "Source Sans 3, sans-serif",
-        "fontSize": 12.5,
+        "fontSize": 11.5,
         "fontWeight": 600
       },
       "encoding": {
         "text": {
-          "field": "label",
+          "field": "note",
           "type": "nominal"
         },
         "color": {
           "condition": {
-            "test": "datum.shade >= 0.58",
+            "test": "datum.rate >= 0.70",
             "value": "#ffffff"
           },
           "value": "#1c2430"
@@ -182,11 +133,6 @@
       }
     }
   ],
-  "resolve": {
-    "scale": {
-      "color": "independent"
-    }
-  },
   "config": {
     "background": "#fffcf8",
     "font": "Source Sans 3, sans-serif",
@@ -214,7 +160,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

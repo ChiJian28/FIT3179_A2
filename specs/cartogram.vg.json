@@ -23,7 +23,7 @@
   "layer": [
     {
       "data": {
-        "url": "data/au-states.geojson?v=20",
+        "url": "data/au-states.geojson?v=30",
         "format": {
           "type": "json",
           "property": "features"
@@ -42,7 +42,7 @@
     },
     {
       "data": {
-        "url": "data/cartogram.geojson?v=20",
+        "url": "data/cartogram.geojson?v=30",
         "format": {
           "type": "json",
           "property": "features"
@@ -112,7 +112,7 @@
     },
     {
       "data": {
-        "url": "data/states.csv?v=20",
+        "url": "data/states.csv?v=30",
         "format": {
           "type": "csv"
         }
@@ -122,7 +122,7 @@
           "lookup": "state",
           "from": {
             "data": {
-              "url": "data/labels.csv?v=20",
+              "url": "data/labels.csv?v=30",
               "format": {
                 "type": "csv"
               }
@@ -189,7 +189,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

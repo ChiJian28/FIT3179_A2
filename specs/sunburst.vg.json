@@ -1,154 +1,232 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Two-ring hierarchical sunburst of coastal drowning places (inner ring) and beach rip current status (outer ring), showing relative percentages and counts.",
+  "description": "Two-ring hierarchical sunburst with distinct categorical hues and direct percentage annotations on every slice.",
   "width": 360,
-  "height": 360,
+  "height": 350,
   "padding": {
     "left": 16,
     "right": 16,
-    "top": 10,
-    "bottom": 10
+    "top": 8,
+    "bottom": 8
   },
   "layer": [
     {
       "data": {
-        "url": "data/sunburst_inner.csv?v=20",
+        "url": "data/sunburst_inner.csv?v=30",
         "format": {
           "type": "csv"
         }
       },
-      "mark": {
-        "type": "arc",
-        "innerRadius": 54,
-        "outerRadius": 118,
-        "stroke": "#ffffff",
-        "strokeWidth": 2
-      },
-      "encoding": {
-        "theta": {
-          "field": "count",
-          "type": "quantitative",
-          "stack": true
-        },
-        "order": {
-          "field": "ord",
-          "type": "quantitative"
-        },
-        "color": {
-          "field": "label",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Beach \u00b7 56.0% (84)",
-              "Offshore \u00b7 18.7% (28)",
-              "Rock/cliff \u00b7 12.7% (19)",
-              "Other coastal \u00b7 12.7% (19)"
-            ],
-            "range": [
-              "#a33b36",
-              "#5e6a76",
-              "#8d847c",
-              "#cfc6bb"
+      "transform": [
+        {
+          "calculate": "format(datum.pct, '.1f') + '%'",
+          "as": "pct_str"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "arc",
+            "innerRadius": 52,
+            "outerRadius": 114,
+            "stroke": "#ffffff",
+            "strokeWidth": 2
+          },
+          "encoding": {
+            "theta": {
+              "field": "count",
+              "type": "quantitative",
+              "stack": true
+            },
+            "order": {
+              "field": "ord",
+              "type": "quantitative"
+            },
+            "color": {
+              "field": "label",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Beach \u00b7 56.0% (84)",
+                  "Offshore \u00b7 18.7% (28)",
+                  "Rock/cliff \u00b7 12.7% (19)",
+                  "Other coastal \u00b7 12.7% (19)"
+                ],
+                "range": [
+                  "#b84a39",
+                  "#1f6f78",
+                  "#8a6232",
+                  "#6b5b7b"
+                ]
+              },
+              "legend": {
+                "title": "Inner ring \u00b7 Coastal location (% of 150)",
+                "orient": "bottom",
+                "columns": 2,
+                "labelLimit": 180
+              }
+            },
+            "tooltip": [
+              {
+                "field": "slice",
+                "type": "nominal",
+                "title": "Location"
+              },
+              {
+                "field": "pct",
+                "type": "quantitative",
+                "title": "Share of total (%)",
+                "format": ".1f"
+              },
+              {
+                "field": "count",
+                "type": "quantitative",
+                "title": "Drowning deaths (n)"
+              }
             ]
-          },
-          "legend": {
-            "title": "Inner ring \u00b7 Location (% of 150)",
-            "orient": "bottom",
-            "columns": 1,
-            "labelLimit": 240
           }
         },
-        "tooltip": [
-          {
-            "field": "slice",
-            "type": "nominal",
-            "title": "Location"
+        {
+          "mark": {
+            "type": "text",
+            "radius": 83,
+            "font": "Source Sans 3, sans-serif",
+            "fontSize": 11.5,
+            "fontWeight": 700,
+            "color": "#ffffff"
           },
-          {
-            "field": "pct",
-            "type": "quantitative",
-            "title": "Share of total (%)",
-            "format": ".1f"
-          },
-          {
-            "field": "count",
-            "type": "quantitative",
-            "title": "Drowning deaths (n)"
+          "encoding": {
+            "theta": {
+              "field": "count",
+              "type": "quantitative",
+              "stack": true
+            },
+            "order": {
+              "field": "ord",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "pct_str",
+              "type": "nominal"
+            }
           }
-        ]
-      }
+        }
+      ]
     },
     {
       "data": {
-        "url": "data/sunburst_outer.csv?v=20",
+        "url": "data/sunburst_outer.csv?v=30",
         "format": {
           "type": "csv"
         }
       },
-      "mark": {
-        "type": "arc",
-        "innerRadius": 124,
-        "outerRadius": 170,
-        "stroke": "#ffffff",
-        "strokeWidth": 2
-      },
-      "encoding": {
-        "theta": {
-          "field": "count",
-          "type": "quantitative",
-          "stack": true
-        },
-        "order": {
-          "field": "ord",
-          "type": "quantitative"
-        },
-        "color": {
-          "field": "slice",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Beach \u00b7 Rip unknown (41.7% of beach)",
-              "Beach \u00b7 Rip confirmed (34.5% of beach)",
-              "Beach \u00b7 No rip (23.8% of beach)",
-              "Offshore waters (non-beach)",
-              "Rock or cliff (non-beach)",
-              "Other coastal waters (non-beach)"
-            ],
-            "range": [
-              "#31404d",
-              "#7a1f1c",
-              "#e0b2ac",
-              "#8a949e",
-              "#afa79f",
-              "#dfd8cf"
+      "transform": [
+        {
+          "calculate": "datum.ord == 1 ? 'Unknown 23.3%' : datum.ord == 2 ? 'Rip 19.3%' : datum.ord == 3 ? 'No rip 13.3%' : ''",
+          "as": "outer_pct_str"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "arc",
+            "innerRadius": 120,
+            "outerRadius": 166,
+            "stroke": "#ffffff",
+            "strokeWidth": 2
+          },
+          "encoding": {
+            "theta": {
+              "field": "count",
+              "type": "quantitative",
+              "stack": true
+            },
+            "order": {
+              "field": "ord",
+              "type": "quantitative"
+            },
+            "color": {
+              "field": "slice",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Beach \u00b7 Rip unknown (41.7% of beach)",
+                  "Beach \u00b7 Rip confirmed (34.5% of beach)",
+                  "Beach \u00b7 No rip (23.8% of beach)",
+                  "Offshore waters (non-beach)",
+                  "Rock or cliff (non-beach)",
+                  "Other coastal waters (non-beach)"
+                ],
+                "range": [
+                  "#344e68",
+                  "#a8332d",
+                  "#2a6f68",
+                  "#fffcf8",
+                  "#fffcf8",
+                  "#fffcf8"
+                ]
+              },
+              "legend": null
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.band == 'Beach'",
+                "value": 1.0
+              },
+              "value": 0.0
+            },
+            "tooltip": [
+              {
+                "field": "slice",
+                "type": "nominal",
+                "title": "Beach rip breakdown"
+              },
+              {
+                "field": "pct_total",
+                "type": "quantitative",
+                "title": "Share of all 150 deaths (%)",
+                "format": ".1f"
+              },
+              {
+                "field": "pct_beach",
+                "type": "quantitative",
+                "title": "Share of 84 beach deaths (%)",
+                "format": ".1f"
+              },
+              {
+                "field": "count",
+                "type": "quantitative",
+                "title": "Deaths (n)"
+              }
             ]
-          },
-          "legend": {
-            "title": "Outer ring \u00b7 Beach rip breakdown",
-            "orient": "bottom",
-            "columns": 1,
-            "labelLimit": 240
           }
         },
-        "tooltip": [
-          {
-            "field": "slice",
-            "type": "nominal",
-            "title": "Breakdown"
+        {
+          "mark": {
+            "type": "text",
+            "radius": 143,
+            "font": "Source Sans 3, sans-serif",
+            "fontSize": 10.5,
+            "fontWeight": 700,
+            "color": "#ffffff"
           },
-          {
-            "field": "pct_total",
-            "type": "quantitative",
-            "title": "Share of all 150 deaths (%)",
-            "format": ".1f"
-          },
-          {
-            "field": "count",
-            "type": "quantitative",
-            "title": "Deaths (n)"
+          "encoding": {
+            "theta": {
+              "field": "count",
+              "type": "quantitative",
+              "stack": true
+            },
+            "order": {
+              "field": "ord",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "outer_pct_str",
+              "type": "nominal"
+            }
           }
-        ]
-      }
+        }
+      ]
     },
     {
       "data": {
@@ -228,7 +306,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

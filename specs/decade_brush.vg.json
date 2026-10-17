@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Interactive 10-year overview-and-detail view with interval brush linking preventative actions and coastal drowning deaths.",
   "data": {
-    "url": "data/decade_trends.csv?v=20",
+    "url": "data/decade_trends.csv?v=30",
     "format": {
       "type": "csv"
     }
@@ -35,7 +35,8 @@
             "width": {
               "band": 0.58
             },
-            "cornerRadiusEnd": 2
+            "cornerRadiusEnd": 2,
+            "color": "#7a1f1c"
           },
           "encoding": {
             "x": {
@@ -62,12 +63,12 @@
                 "tickCount": 4
               }
             },
-            "color": {
+            "opacity": {
               "condition": {
-                "test": "datum.deaths >= 128",
-                "value": "#7a1f1c"
+                "test": "datum.year == '2023/24' || datum.year == '2015/16'",
+                "value": 1.0
               },
-              "value": "#b7aea4"
+              "value": 0.72
             },
             "tooltip": [
               {
@@ -112,6 +113,9 @@
               "filter": {
                 "param": "year_brush"
               }
+            },
+            {
+              "filter": "datum.year == '2014/15' || datum.year == '2015/16' || datum.year == '2019/20' || datum.year == '2023/24'"
             }
           ],
           "mark": {
@@ -120,7 +124,7 @@
             "fontSize": 11.5,
             "fontWeight": 600,
             "font": "Source Sans 3, sans-serif",
-            "color": "#1c2430"
+            "color": "#7a1f1c"
           },
           "encoding": {
             "x": {
@@ -140,8 +144,8 @@
         {
           "mark": {
             "type": "rule",
-            "color": "#7a1f1c",
-            "strokeWidth": 1.5,
+            "color": "#1c2430",
+            "strokeWidth": 1.6,
             "strokeDash": [
               5,
               4
@@ -263,7 +267,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

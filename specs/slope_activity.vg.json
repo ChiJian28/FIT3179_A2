@@ -10,7 +10,7 @@
     "bottom": 8
   },
   "data": {
-    "url": "data/slope_activity.csv?v=20",
+    "url": "data/slope_activity.csv?v=30",
     "format": {
       "type": "csv"
     }
@@ -83,10 +83,10 @@
               "All other activities"
             ],
             "range": [
-              "#7a1f1c",
-              "#1d4e73",
+              "#b84a39",
+              "#1f6f78",
               "#8a6232",
-              "#9e958b"
+              "#786f66"
             ]
           },
           "legend": {
@@ -156,10 +156,10 @@
               "All other activities"
             ],
             "range": [
-              "#7a1f1c",
-              "#1d4e73",
+              "#b84a39",
+              "#1f6f78",
               "#8a6232",
-              "#9e958b"
+              "#786f66"
             ]
           },
           "legend": null
@@ -222,7 +222,7 @@
         "font": "Source Sans 3, sans-serif",
         "fontSize": 12,
         "fontWeight": 600,
-        "color": "#7a1f1c"
+        "color": "#b84a39"
       },
       "encoding": {
         "x": {
@@ -257,7 +257,7 @@
         "font": "Source Sans 3, sans-serif",
         "fontSize": 12,
         "fontWeight": 600,
-        "color": "#1d4e73"
+        "color": "#1f6f78"
       },
       "encoding": {
         "x": {
@@ -362,7 +362,7 @@
         "font": "Source Sans 3, sans-serif",
         "fontSize": 12,
         "fontWeight": 600,
-        "color": "#7a1f1c"
+        "color": "#b84a39"
       },
       "encoding": {
         "x": {
@@ -397,7 +397,7 @@
         "font": "Source Sans 3, sans-serif",
         "fontSize": 12,
         "fontWeight": 600,
-        "color": "#1d4e73"
+        "color": "#1f6f78"
       },
       "encoding": {
         "x": {
@@ -481,7 +481,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

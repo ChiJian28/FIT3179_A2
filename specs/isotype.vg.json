@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Pictorial ISOTYPE chart of 150 coastal drowning deaths using human figure glyphs (each icon = 3 deaths).",
+  "description": "Pictorial ISOTYPE chart of 150 coastal drowning deaths using human figure glyphs (each icon = 3 deaths) with in-chart annotations.",
   "data": {
-    "url": "data/isotype.csv?v=20",
+    "url": "data/isotype.csv?v=30",
     "format": {
       "type": "csv"
     }
@@ -11,59 +11,119 @@
     "left": 10,
     "right": 10,
     "top": 8,
-    "bottom": 8
+    "bottom": 16
   },
+  "transform": [
+    {
+      "calculate": "datum.group == 'Men' ? 'Men \u00b7 86.0% (129 deaths)' : 'Women \u00b7 14.0% (21 deaths)'",
+      "as": "group_header"
+    }
+  ],
   "facet": {
     "column": {
-      "field": "group",
+      "field": "group_header",
       "title": null,
       "sort": [
-        "Men",
-        "Women"
+        "Men \u00b7 86.0% (129 deaths)",
+        "Women \u00b7 14.0% (21 deaths)"
       ],
       "header": {
-        "labelFontSize": 15,
-        "labelFontWeight": 600,
+        "labelFontSize": 13.5,
+        "labelFontWeight": 700,
         "labelPadding": 8
       }
     }
   },
   "spec": {
     "width": 205,
-    "height": 170,
-    "mark": {
-      "type": "point",
-      "filled": true,
-      "shape": "M 0 -0.92 C 0.20 -0.92 0.34 -0.78 0.34 -0.58 C 0.34 -0.38 0.20 -0.24 0 -0.24 C -0.20 -0.24 -0.34 -0.38 -0.34 -0.58 C -0.34 -0.78 -0.20 -0.92 0 -0.92 Z M -0.44 -0.14 C -0.44 -0.18 -0.38 -0.20 -0.30 -0.20 L 0.30 -0.20 C 0.38 -0.20 0.44 -0.18 0.44 -0.14 L 0.48 0.34 L 0.30 0.34 L 0.26 0.92 L 0.04 0.92 L 0.04 0.38 L -0.04 0.38 L -0.04 0.92 L -0.26 0.92 L -0.30 0.34 L -0.48 0.34 Z",
-      "size": 210,
-      "color": "#7a1f1c"
-    },
-    "encoding": {
-      "x": {
-        "field": "col",
-        "type": "ordinal",
-        "axis": null,
-        "scale": {
-          "padding": 0.35
+    "height": 185,
+    "layer": [
+      {
+        "mark": {
+          "type": "point",
+          "filled": true,
+          "shape": "M 0 -0.92 C 0.20 -0.92 0.34 -0.78 0.34 -0.58 C 0.34 -0.38 0.20 -0.24 0 -0.24 C -0.20 -0.24 -0.34 -0.38 -0.34 -0.58 C -0.34 -0.78 -0.20 -0.92 0 -0.92 Z M -0.44 -0.14 C -0.44 -0.18 -0.38 -0.20 -0.30 -0.20 L 0.30 -0.20 C 0.38 -0.20 0.44 -0.18 0.44 -0.14 L 0.48 0.34 L 0.30 0.34 L 0.26 0.92 L 0.04 0.92 L 0.04 0.38 L -0.04 0.38 L -0.04 0.92 L -0.26 0.92 L -0.30 0.34 L -0.48 0.34 Z",
+          "size": 210
+        },
+        "encoding": {
+          "x": {
+            "field": "col",
+            "type": "ordinal",
+            "axis": null,
+            "scale": {
+              "padding": 0.35
+            }
+          },
+          "y": {
+            "field": "row",
+            "type": "ordinal",
+            "axis": null,
+            "sort": "descending",
+            "scale": {
+              "padding": 0.35
+            }
+          },
+          "color": {
+            "field": "group",
+            "type": "nominal",
+            "scale": {
+              "domain": [
+                "Men",
+                "Women"
+              ],
+              "range": [
+                "#4b4e8f",
+                "#b07128"
+              ]
+            },
+            "legend": null
+          },
+          "tooltip": [
+            {
+              "field": "group_header",
+              "type": "nominal",
+              "title": "Group (1 figure = 3 deaths)"
+            }
+          ]
         }
       },
-      "y": {
-        "field": "row",
-        "type": "ordinal",
-        "axis": null,
-        "sort": "descending",
-        "scale": {
-          "padding": 0.35
+      {
+        "transform": [
+          {
+            "filter": "datum.col == 0 && datum.row == 0"
+          },
+          {
+            "calculate": "datum.group == 'Men' ? '43 figures = 129 (0.97 per 100k)' : '7 figures = 21 (0.15 per 100k)'",
+            "as": "panel_note"
+          }
+        ],
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "dx": -6,
+          "dy": 22,
+          "font": "Source Sans 3, sans-serif",
+          "fontSize": 11,
+          "fontWeight": 600,
+          "color": "#1c2430"
+        },
+        "encoding": {
+          "x": {
+            "field": "col",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "row",
+            "type": "ordinal",
+            "sort": "descending"
+          },
+          "text": {
+            "field": "panel_note",
+            "type": "nominal"
+          }
         }
-      },
-      "tooltip": [
-        {
-          "field": "group",
-          "type": "nominal",
-          "title": "Sex (1 figure = 3 deaths)"
-        }
-      ]
-    }
+      }
+    ]
   },
   "config": {
     "background": "#fffcf8",
@@ -92,7 +152,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

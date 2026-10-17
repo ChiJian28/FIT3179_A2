@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Lollipop chart of rescues per 10,000 volunteer patrol hours with national benchmark rule.",
+  "description": "Lollipop chart of rescues per 10,000 volunteer patrol hours encoded strictly by length.",
   "width": 360,
   "height": 250,
   "padding": {
@@ -10,7 +10,7 @@
     "bottom": 10
   },
   "data": {
-    "url": "data/hours_ratio.csv?v=20",
+    "url": "data/hours_ratio.csv?v=30",
     "format": {
       "type": "csv"
     }
@@ -155,12 +155,17 @@
       }
     },
     {
+      "transform": [
+        {
+          "filter": "datum.code == 'Qld' || datum.code == 'NSW' || datum.code == 'SA'"
+        }
+      ],
       "mark": {
         "type": "text",
         "align": "left",
         "dx": 10,
         "font": "Source Sans 3, sans-serif",
-        "fontSize": 12.5,
+        "fontSize": 12,
         "fontWeight": 600,
         "color": "#1c2430"
       },
@@ -204,7 +209,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

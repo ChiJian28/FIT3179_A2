@@ -20,6 +20,14 @@ SEA_MID = "#4a7fa6"
 SEA_PALE = "#d4e3ee"
 
 OCHRE = "#8a6232"
+AMBER = "#b07128"
+PLUM = "#6b5b7b"
+SLATE_NAVY = "#344e68"
+INDIGO_MALE = "#4b4e8f"
+AMBER_FEMALE = "#b07128"
+TEAL_CAT = "#1f6f78"
+TERRA_CAT = "#b84a39"
+
 INK = "#1c2430"
 PAPER = "#fffcf8"
 SAND = "#e7e0d6"
@@ -48,7 +56,7 @@ PERSON_PATH = (
     "L -0.30 0.34 L -0.48 0.34 Z"
 )
 
-DATA_VER = "?v=20"
+DATA_VER = "?v=30"
 
 
 def csv_data(filename):
@@ -96,6 +104,7 @@ def config(background=PAPER):
             "titleColor": INK,
             "symbolStrokeWidth": 0,
             "labelLimit": 240,
+            "titleLimit": 280,
         },
         "header": {
             "labelFont": FONT,
@@ -207,7 +216,7 @@ def main():
         },
     )
 
-    # 2. Interactive 10-Year Brush & Diverging Anomaly View (Week 10 MCV + Brush)
+    # 2. Interactive 10-Year Brush & Sequential Bar View (Week 10 MCV + Brush)
     dump(
         "decade_brush.vg.json",
         {
@@ -226,7 +235,7 @@ def main():
                     "layer": [
                         {
                             "transform": [{"filter": {"param": "year_brush"}}],
-                            "mark": {"type": "bar", "width": {"band": 0.58}, "cornerRadiusEnd": 2},
+                            "mark": {"type": "bar", "width": {"band": 0.58}, "cornerRadiusEnd": 2, "color": WINE},
                             "encoding": {
                                 "x": {
                                     "field": "year",
@@ -241,9 +250,9 @@ def main():
                                     "scale": {"zero": True, "domain": [0, 175]},
                                     "axis": {"tickCount": 4},
                                 },
-                                "color": {
-                                    "condition": {"test": "datum.deaths >= 128", "value": WINE},
-                                    "value": "#b7aea4",
+                                "opacity": {
+                                    "condition": {"test": "datum.year == '2023/24' || datum.year == '2015/16'", "value": 1.0},
+                                    "value": 0.72,
                                 },
                                 "tooltip": [
                                     {"field": "year", "type": "nominal", "title": "Reporting year"},
@@ -256,14 +265,17 @@ def main():
                             },
                         },
                         {
-                            "transform": [{"filter": {"param": "year_brush"}}],
+                            "transform": [
+                                {"filter": {"param": "year_brush"}},
+                                {"filter": "datum.year == '2014/15' || datum.year == '2015/16' || datum.year == '2019/20' || datum.year == '2023/24'"},
+                            ],
                             "mark": {
                                 "type": "text",
                                 "dy": -7,
                                 "fontSize": 11.5,
                                 "fontWeight": 600,
                                 "font": FONT,
-                                "color": INK,
+                                "color": WINE,
                             },
                             "encoding": {
                                 "x": {"field": "year", "type": "ordinal"},
@@ -272,7 +284,7 @@ def main():
                             },
                         },
                         {
-                            "mark": {"type": "rule", "color": WINE, "strokeWidth": 1.5, "strokeDash": [5, 4]},
+                            "mark": {"type": "rule", "color": INK, "strokeWidth": 1.6, "strokeDash": [5, 4]},
                             "encoding": {"y": {"datum": 127.6}},
                         },
                     ],
@@ -324,12 +336,12 @@ def main():
         },
     )
 
-    # 3. Map 1: Interactive Classified Choropleth Map
+    # 3. Map 1: Interactive Classified Choropleth Map (100% Normalized Metrics Only)
     dump(
         "choropleth.vg.json",
         {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "Classified choropleth of the 2023/24 coastal drowning rate with interactive metric label selector.",
+            "description": "Classified choropleth of the 2023/24 coastal drowning rate with interactive normalized metric selector.",
             "width": 920,
             "height": 450,
             "padding": {"left": 10, "right": 10, "top": 10, "bottom": 10},
@@ -340,14 +352,14 @@ def main():
                     "value": "rate",
                     "bind": {
                         "input": "select",
-                        "options": ["rate", "rate_10yr", "beyond_pct", "deaths"],
+                        "options": ["rate", "rate_10yr", "beyond_pct", "clubs_per_1000km"],
                         "labels": [
                             "2023/24 rate (per 100k)",
                             "10-year avg rate (per 100k)",
                             "Share >1 km from patrol (%)",
-                            "2023/24 drowning count (n)",
+                            "SLS clubs per 1,000 km coast",
                         ],
-                        "name": "Inspect state metric on map: ",
+                        "name": "Inspect normalized state metric: ",
                     },
                 }
             ],
@@ -368,6 +380,7 @@ def main():
                                     "rate_class",
                                     "beyond_pct",
                                     "clubs",
+                                    "clubs_per_1000km",
                                     "pop_m",
                                 ],
                             },
@@ -380,7 +393,7 @@ def main():
                             "type": "nominal",
                             "scale": {"domain": RATE_DOMAIN, "range": RATE_RANGE},
                             "legend": {
-                                "title": "2023/24 deaths per 100,000 people",
+                                "title": "2023/24 deaths per 100,000 people (normalized rate)",
                                 "orient": "bottom",
                                 "columns": 4,
                                 "direction": "horizontal",
@@ -391,10 +404,9 @@ def main():
                             {"field": "properties.STATE_NAME", "title": "State / Territory", "type": "nominal"},
                             {"field": "rate", "title": "2023/24 rate (per 100k)", "type": "quantitative", "format": ".2f"},
                             {"field": "rate_10yr", "title": "10-year avg rate (per 100k)", "type": "quantitative", "format": ".2f"},
-                            {"field": "deaths", "title": "2023/24 coastal deaths", "type": "quantitative"},
                             {"field": "beyond_pct", "title": "Deaths >1 km from service (%)", "type": "quantitative"},
+                            {"field": "clubs_per_1000km", "title": "Clubs per 1,000 km coast", "type": "quantitative", "format": ".1f"},
                             {"field": "pop_m", "title": "ABS population (millions)", "type": "quantitative", "format": ".2f"},
-                            {"field": "clubs", "title": "Surf Life Saving clubs", "type": "quantitative"},
                         ],
                     },
                 },
@@ -413,7 +425,7 @@ def main():
                             "calculate": (
                                 "label_mode == 'rate_10yr' ? datum.code + '  ' + datum.rate_10yr : "
                                 "label_mode == 'beyond_pct' ? datum.code + '  ' + datum.beyond_pct + '%' : "
-                                "label_mode == 'deaths' ? (datum.deaths === '' || datum.deaths == null ? datum.code + ' (5-yr)' : datum.code + '  n=' + datum.deaths) : "
+                                "label_mode == 'clubs_per_1000km' ? datum.code + '  ' + datum.clubs_per_1000km + '/1k km' : "
                                 "(datum.deaths === '' || datum.deaths == null ? datum.code + ' (no 1-yr)' : datum.code + '  ' + datum.rate)"
                             ),
                             "as": "label",
@@ -463,7 +475,7 @@ def main():
         },
     )
 
-    # 4. True Stephen Few Bullet Chart (with qualitative risk bands + 10-yr tick + 0.56 national benchmark)
+    # 4. True Stephen Few Bullet Chart (Selective Annotation on Key Extremes Only)
     bullet_state_order = [
         "Tasmania",
         "New South Wales",
@@ -540,12 +552,15 @@ def main():
                     "encoding": {"x": {"datum": 0.56}},
                 },
                 {
+                    "transform": [
+                        {"filter": "datum.code == 'Tas' || datum.code == 'NSW' || datum.code == 'WA' || datum.code == 'Vic'"},
+                    ],
                     "mark": {
                         "type": "text",
                         "align": "left",
                         "dx": 7,
                         "font": FONT,
-                        "fontSize": 12.5,
+                        "fontSize": 12,
                         "fontWeight": 600,
                         "color": INK,
                     },
@@ -577,7 +592,7 @@ def main():
         },
     )
 
-    # 5. Slope States (Interactive State Highlight + Self-Calculated Left & Right Labels)
+    # 5. Slope States (Interactive State Highlight + Left & Right Labels)
     dump(
         "slope_states.vg.json",
         {
@@ -716,12 +731,12 @@ def main():
         },
     )
 
-    # 6. Map 2: Proportional Symbol Map (Volunteer Patrol Hours + Club Density)
+    # 6. Map 2: Graduated Symbol Map (Classified Circle Sizes, Zero Overlap, No Colour Luminance)
     dump(
         "symbol_map.vg.json",
         {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "Proportional symbol map. Circle area encodes volunteer patrol hours across 315 SLS clubs.",
+            "description": "Graduated symbol map with 4 classified volunteer patrol hour tiers. Single flat colour, zero circle overlap.",
             "width": 470,
             "height": 420,
             "padding": {"left": 10, "right": 10, "top": 10, "bottom": 10},
@@ -741,38 +756,53 @@ def main():
                                 "key": "state",
                                 "fields": ["lon", "lat"],
                             },
-                        }
+                        },
+                        {
+                            "calculate": (
+                                "datum.hours < 50000 ? '< 50,000 hrs' : "
+                                "datum.hours < 150000 ? '50,000–150,000 hrs' : "
+                                "datum.hours < 400000 ? '150,000–400,000 hrs' : '> 400,000 hrs'"
+                            ),
+                            "as": "hours_class",
+                        },
                     ],
                     "mark": {
                         "type": "circle",
-                        "opacity": 0.84,
+                        "opacity": 0.88,
                         "color": SEA,
                         "stroke": "#ffffff",
-                        "strokeWidth": 1.4,
+                        "strokeWidth": 1.6,
                     },
                     "encoding": {
                         "longitude": {"field": "lon", "type": "quantitative"},
                         "latitude": {"field": "lat", "type": "quantitative"},
                         "size": {
-                            "field": "hours",
-                            "type": "quantitative",
-                            "scale": {"type": "linear", "range": [24, 2100], "zero": True},
-                            "title": "Volunteer patrol hours",
+                            "field": "hours_class",
+                            "type": "ordinal",
+                            "scale": {
+                                "domain": [
+                                    "< 50,000 hrs",
+                                    "50,000–150,000 hrs",
+                                    "150,000–400,000 hrs",
+                                    "> 400,000 hrs",
+                                ],
+                                "range": [95, 240, 480, 880],
+                            },
+                            "title": "Volunteer patrol hours (4 graduated classes)",
                             "legend": {
                                 "orient": "bottom",
+                                "columns": 2,
                                 "direction": "horizontal",
-                                "values": [50000, 200000, 400000, 650000],
-                                "format": ",",
-                                "labelExpr": "format(datum.value, ',')",
+                                "labelLimit": 190,
                             },
                         },
                         "order": {"field": "hours", "type": "quantitative", "sort": "descending"},
                         "tooltip": [
                             {"field": "state", "type": "nominal", "title": "State"},
+                            {"field": "hours_class", "type": "nominal", "title": "Graduated class"},
                             {"field": "hours", "type": "quantitative", "title": "Volunteer patrol hours", "format": ","},
                             {"field": "members", "type": "quantitative", "title": "Patrolling members", "format": ","},
                             {"field": "clubs", "type": "quantitative", "title": "SLS clubs"},
-                            {"field": "rescues", "type": "quantitative", "title": "Rescues (2023/24)", "format": ","},
                         ],
                     },
                 },
@@ -797,7 +827,7 @@ def main():
                         "font": FONT,
                         "fontSize": 11.5,
                         "fontWeight": 600,
-                        "dy": -12,
+                        "dy": -19,
                         "color": INK,
                     },
                     "encoding": {
@@ -885,44 +915,33 @@ def main():
         },
     )
 
-    # 8. Multi-Metric Normalized Rank Highlight Table (Heatmap)
+    # 8. True 10-Year State Coastal Drowning Rate Heatmap (Single Sequential Scale, Selective Un-Cluttered Annotations)
     heatmap_states = [
         "Tasmania",
-        "New South Wales",
         "Western Australia",
-        "South Australia",
+        "New South Wales",
         "Queensland",
+        "South Australia",
         "Victoria",
-        "Northern Territory",
-    ]
-    heatmap_metrics = [
-        "Deaths per 100k",
-        "Deaths >1 km away",
-        "Volunteer hours",
-        "Patrolling members",
-        "SLS clubs",
     ]
     dump(
         "heatmap.vg.json",
         {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "Highlight table comparing coastal risk rank (wine red) and volunteer patrol capacity rank (sea blue) across states.",
+            "description": "Ten-year heatmap of coastal drowning rates per 100,000 people across Australian states (2014/15–2023/24) with selective milestone annotations.",
             "width": 780,
-            "height": 300,
+            "height": 290,
             "padding": {"left": 14, "right": 16, "top": 8, "bottom": 8},
             "data": csv_data("heatmap.csv"),
             "encoding": {
                 "x": {
-                    "field": "metric",
-                    "type": "nominal",
-                    "sort": heatmap_metrics,
-                    "title": None,
+                    "field": "fy",
+                    "type": "ordinal",
+                    "title": "Reporting season (1 July – 30 June)",
                     "axis": {
-                        "orient": "top",
+                        "orient": "bottom",
                         "labelAngle": 0,
-                        "labelFontSize": 12.5,
-                        "labelFontWeight": 600,
-                        "labelLimit": 160,
+                        "labelFontSize": 12,
                         "domain": False,
                         "ticks": False,
                     },
@@ -937,62 +956,49 @@ def main():
             },
             "layer": [
                 {
-                    "transform": [{"filter": "datum.category == 'Risk'"}],
                     "mark": {"type": "rect", "stroke": PAPER, "strokeWidth": 2},
                     "encoding": {
                         "color": {
-                            "field": "shade",
+                            "field": "rate",
                             "type": "quantitative",
-                            "scale": {"domain": [0, 1], "range": ["#f5ebe8", WINE]},
+                            "scale": {
+                                "type": "linear",
+                                "domain": [0.2, 0.6, 1.1, 1.75],
+                                "range": ["#f6ede8", "#df9a8c", "#b3443c", WINE],
+                            },
                             "legend": {
-                                "title": "Within-column rank (0 = low, 1 = high)",
+                                "title": "Deaths per 100,000 people",
                                 "orient": "bottom",
-                                "gradientLength": 140,
-                                "values": [0, 0.5, 1],
-                                "format": ".1f",
+                                "direction": "horizontal",
+                                "gradientLength": 200,
+                                "format": ".2f",
                             },
                         },
                         "tooltip": [
                             {"field": "state", "type": "nominal", "title": "State"},
-                            {"field": "metric", "type": "nominal", "title": "Risk metric"},
-                            {"field": "label", "type": "nominal", "title": "Reported value"},
+                            {"field": "fy", "type": "nominal", "title": "Financial year"},
+                            {"field": "rate", "type": "quantitative", "title": "Rate per 100,000", "format": ".2f"},
+                            {"field": "deaths", "type": "quantitative", "title": "Coastal drowning deaths"},
                         ],
                     },
                 },
                 {
-                    "transform": [{"filter": "datum.category == 'Service'"}],
-                    "mark": {"type": "rect", "stroke": PAPER, "strokeWidth": 2},
+                    "transform": [{"filter": "datum.note != '' && datum.note != null"}],
+                    "mark": {"type": "text", "font": FONT, "fontSize": 11.5, "fontWeight": 600},
                     "encoding": {
+                        "text": {"field": "note", "type": "nominal"},
                         "color": {
-                            "field": "shade",
-                            "type": "quantitative",
-                            "scale": {"domain": [0, 1], "range": ["#ebf1f5", SEA]},
-                            "legend": None,
-                        },
-                        "tooltip": [
-                            {"field": "state", "type": "nominal", "title": "State"},
-                            {"field": "metric", "type": "nominal", "title": "Service metric"},
-                            {"field": "label", "type": "nominal", "title": "Reported value"},
-                        ],
-                    },
-                },
-                {
-                    "mark": {"type": "text", "font": FONT, "fontSize": 12.5, "fontWeight": 600},
-                    "encoding": {
-                        "text": {"field": "label", "type": "nominal"},
-                        "color": {
-                            "condition": {"test": "datum.shade >= 0.58", "value": "#ffffff"},
+                            "condition": {"test": "datum.rate >= 0.70", "value": "#ffffff"},
                             "value": INK,
                         },
                     },
                 },
             ],
-            "resolve": {"scale": {"color": "independent"}},
             "config": config(),
         },
     )
 
-    # 9. Refined Lollipop Chart: Rescues per 10,000 Volunteer Patrol Hours
+    # 9. Refined Lollipop Chart: Rescues per 10,000 Volunteer Patrol Hours (Length Channel Only, Selective Annotations)
     lollipop_order = [
         "Queensland",
         "New South Wales",
@@ -1005,7 +1011,7 @@ def main():
         "hours_ratio.vg.json",
         {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "Lollipop chart of rescues per 10,000 volunteer patrol hours with national benchmark rule.",
+            "description": "Lollipop chart of rescues per 10,000 volunteer patrol hours encoded strictly by length.",
             "width": 360,
             "height": 250,
             "padding": {"left": 12, "right": 20, "top": 10, "bottom": 10},
@@ -1069,12 +1075,15 @@ def main():
                     },
                 },
                 {
+                    "transform": [
+                        {"filter": "datum.code == 'Qld' || datum.code == 'NSW' || datum.code == 'SA'"},
+                    ],
                     "mark": {
                         "type": "text",
                         "align": "left",
                         "dx": 10,
                         "font": FONT,
-                        "fontSize": 12.5,
+                        "fontSize": 12,
                         "fontWeight": 600,
                         "color": INK,
                     },
@@ -1127,7 +1136,7 @@ def main():
                         "x": {
                             "field": "calc_within_pct",
                             "type": "quantitative",
-                            "title": "Share of coastal deaths (%) — Within 1 km (grey) vs. >1 km (red)",
+                            "title": "Share of coastal deaths (%) — Within 1 km (blue) vs. >1 km (red)",
                             "scale": {"zero": True, "domain": [0, 106]},
                             "axis": {"values": [0, 20, 40, 60, 69, 80, 100]},
                         },
@@ -1135,7 +1144,7 @@ def main():
                     },
                 },
                 {
-                    "mark": {"type": "circle", "color": "#8a8178", "size": 120, "opacity": 1},
+                    "mark": {"type": "circle", "color": SEA, "size": 120, "opacity": 1},
                     "encoding": {
                         "x": {"field": "calc_within_pct", "type": "quantitative"},
                         "tooltip": [
@@ -1160,6 +1169,9 @@ def main():
                     "encoding": {"x": {"datum": 69}},
                 },
                 {
+                    "transform": [
+                        {"filter": "datum.code == 'Tas' || datum.code == 'SA' || datum.code == 'NSW'"},
+                    ],
                     "mark": {
                         "type": "text",
                         "align": "left",
@@ -1175,13 +1187,17 @@ def main():
                     },
                 },
                 {
+                    "transform": [
+                        {"filter": "datum.code == 'Tas' || datum.code == 'SA' || datum.code == 'NSW'"},
+                    ],
                     "mark": {
                         "type": "text",
                         "align": "right",
                         "dx": -9,
                         "font": FONT,
                         "fontSize": 11.5,
-                        "color": MUTED,
+                        "fontWeight": 600,
+                        "color": SEA,
                     },
                     "encoding": {
                         "x": {"field": "calc_within_pct", "type": "quantitative"},
@@ -1193,82 +1209,132 @@ def main():
         },
     )
 
-    # 11. Sunburst Chart (With Relative Percentage % + Count n, Independent Legends, Center KPI)
-    beach = "#a33b36"
+    # 11. Sunburst Chart (Distinct Categorical Hues + Direct Percentage Labels on Every Slice + Single Clean Legend!)
     dump(
         "sunburst.vg.json",
         {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "Two-ring hierarchical sunburst of coastal drowning places (inner ring) and beach rip current status (outer ring), showing relative percentages and counts.",
+            "description": "Two-ring hierarchical sunburst with distinct categorical hues and direct percentage annotations on every slice.",
             "width": 360,
-            "height": 360,
-            "padding": {"left": 16, "right": 16, "top": 10, "bottom": 10},
+            "height": 350,
+            "padding": {"left": 16, "right": 16, "top": 8, "bottom": 8},
             "layer": [
                 {
                     "data": csv_data("sunburst_inner.csv"),
-                    "mark": {"type": "arc", "innerRadius": 54, "outerRadius": 118, "stroke": "#ffffff", "strokeWidth": 2},
-                    "encoding": {
-                        "theta": {"field": "count", "type": "quantitative", "stack": True},
-                        "order": {"field": "ord", "type": "quantitative"},
-                        "color": {
-                            "field": "label",
-                            "type": "nominal",
-                            "scale": {
-                                "domain": [
-                                    "Beach · 56.0% (84)",
-                                    "Offshore · 18.7% (28)",
-                                    "Rock/cliff · 12.7% (19)",
-                                    "Other coastal · 12.7% (19)",
+                    "transform": [
+                        {"calculate": "format(datum.pct, '.1f') + '%'", "as": "pct_str"},
+                    ],
+                    "layer": [
+                        {
+                            "mark": {"type": "arc", "innerRadius": 52, "outerRadius": 114, "stroke": "#ffffff", "strokeWidth": 2},
+                            "encoding": {
+                                "theta": {"field": "count", "type": "quantitative", "stack": True},
+                                "order": {"field": "ord", "type": "quantitative"},
+                                "color": {
+                                    "field": "label",
+                                    "type": "nominal",
+                                    "scale": {
+                                        "domain": [
+                                            "Beach · 56.0% (84)",
+                                            "Offshore · 18.7% (28)",
+                                            "Rock/cliff · 12.7% (19)",
+                                            "Other coastal · 12.7% (19)",
+                                        ],
+                                        "range": [TERRA_CAT, TEAL_CAT, OCHRE, PLUM],
+                                    },
+                                    "legend": {
+                                        "title": "Inner ring · Coastal location (% of 150)",
+                                        "orient": "bottom",
+                                        "columns": 2,
+                                        "labelLimit": 180,
+                                    },
+                                },
+                                "tooltip": [
+                                    {"field": "slice", "type": "nominal", "title": "Location"},
+                                    {"field": "pct", "type": "quantitative", "title": "Share of total (%)", "format": ".1f"},
+                                    {"field": "count", "type": "quantitative", "title": "Drowning deaths (n)"},
                                 ],
-                                "range": [beach, "#5e6a76", "#8d847c", "#cfc6bb"],
-                            },
-                            "legend": {
-                                "title": "Inner ring · Location (% of 150)",
-                                "orient": "bottom",
-                                "columns": 1,
-                                "labelLimit": 240,
                             },
                         },
-                        "tooltip": [
-                            {"field": "slice", "type": "nominal", "title": "Location"},
-                            {"field": "pct", "type": "quantitative", "title": "Share of total (%)", "format": ".1f"},
-                            {"field": "count", "type": "quantitative", "title": "Drowning deaths (n)"},
-                        ],
-                    },
+                        {
+                            "mark": {
+                                "type": "text",
+                                "radius": 83,
+                                "font": FONT,
+                                "fontSize": 11.5,
+                                "fontWeight": 700,
+                                "color": "#ffffff",
+                            },
+                            "encoding": {
+                                "theta": {"field": "count", "type": "quantitative", "stack": True},
+                                "order": {"field": "ord", "type": "quantitative"},
+                                "text": {"field": "pct_str", "type": "nominal"},
+                            },
+                        },
+                    ],
                 },
                 {
                     "data": csv_data("sunburst_outer.csv"),
-                    "mark": {"type": "arc", "innerRadius": 124, "outerRadius": 170, "stroke": "#ffffff", "strokeWidth": 2},
-                    "encoding": {
-                        "theta": {"field": "count", "type": "quantitative", "stack": True},
-                        "order": {"field": "ord", "type": "quantitative"},
-                        "color": {
-                            "field": "slice",
-                            "type": "nominal",
-                            "scale": {
-                                "domain": [
-                                    "Beach · Rip unknown (41.7% of beach)",
-                                    "Beach · Rip confirmed (34.5% of beach)",
-                                    "Beach · No rip (23.8% of beach)",
-                                    "Offshore waters (non-beach)",
-                                    "Rock or cliff (non-beach)",
-                                    "Other coastal waters (non-beach)",
+                    "transform": [
+                        {
+                            "calculate": (
+                                "datum.ord == 1 ? 'Unknown 23.3%' : "
+                                "datum.ord == 2 ? 'Rip 19.3%' : "
+                                "datum.ord == 3 ? 'No rip 13.3%' : ''"
+                            ),
+                            "as": "outer_pct_str",
+                        }
+                    ],
+                    "layer": [
+                        {
+                            "mark": {"type": "arc", "innerRadius": 120, "outerRadius": 166, "stroke": "#ffffff", "strokeWidth": 2},
+                            "encoding": {
+                                "theta": {"field": "count", "type": "quantitative", "stack": True},
+                                "order": {"field": "ord", "type": "quantitative"},
+                                "color": {
+                                    "field": "slice",
+                                    "type": "nominal",
+                                    "scale": {
+                                        "domain": [
+                                            "Beach · Rip unknown (41.7% of beach)",
+                                            "Beach · Rip confirmed (34.5% of beach)",
+                                            "Beach · No rip (23.8% of beach)",
+                                            "Offshore waters (non-beach)",
+                                            "Rock or cliff (non-beach)",
+                                            "Other coastal waters (non-beach)",
+                                        ],
+                                        "range": [SLATE_NAVY, "#a8332d", "#2a6f68", PAPER, PAPER, PAPER],
+                                    },
+                                    "legend": None,
+                                },
+                                "opacity": {
+                                    "condition": {"test": "datum.band == 'Beach'", "value": 1.0},
+                                    "value": 0.0,
+                                },
+                                "tooltip": [
+                                    {"field": "slice", "type": "nominal", "title": "Beach rip breakdown"},
+                                    {"field": "pct_total", "type": "quantitative", "title": "Share of all 150 deaths (%)", "format": ".1f"},
+                                    {"field": "pct_beach", "type": "quantitative", "title": "Share of 84 beach deaths (%)", "format": ".1f"},
+                                    {"field": "count", "type": "quantitative", "title": "Deaths (n)"},
                                 ],
-                                "range": ["#31404d", WINE, "#e0b2ac", "#8a949e", "#afa79f", "#dfd8cf"],
-                            },
-                            "legend": {
-                                "title": "Outer ring · Beach rip breakdown",
-                                "orient": "bottom",
-                                "columns": 1,
-                                "labelLimit": 240,
                             },
                         },
-                        "tooltip": [
-                            {"field": "slice", "type": "nominal", "title": "Breakdown"},
-                            {"field": "pct_total", "type": "quantitative", "title": "Share of all 150 deaths (%)", "format": ".1f"},
-                            {"field": "count", "type": "quantitative", "title": "Deaths (n)"},
-                        ],
-                    },
+                        {
+                            "mark": {
+                                "type": "text",
+                                "radius": 143,
+                                "font": FONT,
+                                "fontSize": 10.5,
+                                "fontWeight": 700,
+                                "color": "#ffffff",
+                            },
+                            "encoding": {
+                                "theta": {"field": "count", "type": "quantitative", "stack": True},
+                                "order": {"field": "ord", "type": "quantitative"},
+                                "text": {"field": "outer_pct_str", "type": "nominal"},
+                            },
+                        },
+                    ],
                 },
                 {
                     "data": {"values": [{"t1": "150 deaths"}]},
@@ -1286,7 +1352,7 @@ def main():
         },
     )
 
-    # 12. Activity Counts & Share (Ranked Bar with Self-Calculated Count + % Share)
+    # 12. Activity Counts & Share (Selective Annotations on Key Bars Only)
     activity_order = [
         "Swimming and wading",
         "All other coastal activities",
@@ -1298,7 +1364,7 @@ def main():
         "activity_counts.vg.json",
         {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "2023/24 coastal drowning deaths by activity with count and percentage share.",
+            "description": "2023/24 coastal drowning deaths by activity with selective annotations.",
             "width": 320,
             "height": 210,
             "padding": {"left": 24, "right": 24, "top": 8, "bottom": 8},
@@ -1321,7 +1387,7 @@ def main():
                     "field": "deaths",
                     "type": "quantitative",
                     "title": "Coastal drowning deaths in 2023/24 (n = 150)",
-                    "scale": {"zero": True, "domain": [0, 76]},
+                    "scale": {"zero": True, "domain": [0, 78]},
                     "axis": {"tickCount": 5},
                 },
             },
@@ -1341,6 +1407,9 @@ def main():
                     },
                 },
                 {
+                    "transform": [
+                        {"filter": "datum.activity == 'Swimming and wading' || datum.activity == 'Boating' || datum.activity == 'Falls into water'"},
+                    ],
                     "mark": {
                         "type": "text",
                         "align": "left",
@@ -1406,7 +1475,7 @@ def main():
                             "type": "nominal",
                             "scale": {
                                 "domain": ["Swimming and wading", "Boating", "Snorkelling", "All other activities"],
-                                "range": [WINE, SEA, OCHRE, "#9e958b"],
+                                "range": [TERRA_CAT, TEAL_CAT, OCHRE, "#786f66"],
                             },
                             "legend": {
                                 "title": "Click legend to highlight activity:",
@@ -1436,7 +1505,7 @@ def main():
                             "type": "nominal",
                             "scale": {
                                 "domain": ["Swimming and wading", "Boating", "Snorkelling", "All other activities"],
-                                "range": [WINE, SEA, OCHRE, "#9e958b"],
+                                "range": [TERRA_CAT, TEAL_CAT, OCHRE, "#786f66"],
                             },
                             "legend": None,
                         },
@@ -1467,8 +1536,8 @@ def main():
                     }
                     for act, dy, col in [
                         ("All other activities", -8, MUTED),
-                        ("Swimming and wading", 10, WINE),
-                        ("Boating", -4, SEA),
+                        ("Swimming and wading", 10, TERRA_CAT),
+                        ("Boating", -4, TEAL_CAT),
                         ("Snorkelling", 8, OCHRE),
                     ]
                 ],
@@ -1493,8 +1562,8 @@ def main():
                     }
                     for act, dy, col in [
                         ("All other activities", -4, MUTED),
-                        ("Swimming and wading", 4, WINE),
-                        ("Boating", 0, SEA),
+                        ("Swimming and wading", 4, TERRA_CAT),
+                        ("Boating", 0, TEAL_CAT),
                         ("Snorkelling", 0, OCHRE),
                     ]
                 ],
@@ -1503,58 +1572,104 @@ def main():
         },
     )
 
-    # 14. True Pictorial ISOTYPE Unit Chart (Human Swimmer/Person Silhouette Icons)
+    # 14. True Pictorial ISOTYPE Unit Chart (All 50 Human Figures + In-Chart Annotations)
     dump(
         "isotype.vg.json",
         {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "Pictorial ISOTYPE chart of 150 coastal drowning deaths using human figure glyphs (each icon = 3 deaths).",
+            "description": "Pictorial ISOTYPE chart of 150 coastal drowning deaths using human figure glyphs (each icon = 3 deaths) with in-chart annotations.",
             "data": csv_data("isotype.csv"),
-            "padding": {"left": 10, "right": 10, "top": 8, "bottom": 8},
+            "padding": {"left": 10, "right": 10, "top": 8, "bottom": 16},
+            "transform": [
+                {
+                    "calculate": (
+                        "datum.group == 'Men' ? 'Men · 86.0% (129 deaths)' : 'Women · 14.0% (21 deaths)'"
+                    ),
+                    "as": "group_header",
+                }
+            ],
             "facet": {
                 "column": {
-                    "field": "group",
+                    "field": "group_header",
                     "title": None,
-                    "sort": ["Men", "Women"],
-                    "header": {"labelFontSize": 15, "labelFontWeight": 600, "labelPadding": 8},
+                    "sort": ["Men · 86.0% (129 deaths)", "Women · 14.0% (21 deaths)"],
+                    "header": {"labelFontSize": 13.5, "labelFontWeight": 700, "labelPadding": 8},
                 }
             },
             "spec": {
                 "width": 205,
-                "height": 170,
-                "mark": {
-                    "type": "point",
-                    "filled": True,
-                    "shape": PERSON_PATH,
-                    "size": 210,
-                    "color": WINE,
-                },
-                "encoding": {
-                    "x": {"field": "col", "type": "ordinal", "axis": None, "scale": {"padding": 0.35}},
-                    "y": {
-                        "field": "row",
-                        "type": "ordinal",
-                        "axis": None,
-                        "sort": "descending",
-                        "scale": {"padding": 0.35},
+                "height": 185,
+                "layer": [
+                    {
+                        "mark": {
+                            "type": "point",
+                            "filled": True,
+                            "shape": PERSON_PATH,
+                            "size": 210,
+                        },
+                        "encoding": {
+                            "x": {"field": "col", "type": "ordinal", "axis": None, "scale": {"padding": 0.35}},
+                            "y": {
+                                "field": "row",
+                                "type": "ordinal",
+                                "axis": None,
+                                "sort": "descending",
+                                "scale": {"padding": 0.35},
+                            },
+                            "color": {
+                                "field": "group",
+                                "type": "nominal",
+                                "scale": {
+                                    "domain": ["Men", "Women"],
+                                    "range": [INDIGO_MALE, AMBER_FEMALE],
+                                },
+                                "legend": None,
+                            },
+                            "tooltip": [
+                                {"field": "group_header", "type": "nominal", "title": "Group (1 figure = 3 deaths)"},
+                            ],
+                        },
                     },
-                    "tooltip": [
-                        {"field": "group", "type": "nominal", "title": "Sex (1 figure = 3 deaths)"},
-                    ],
-                },
+                    {
+                        "transform": [
+                            {"filter": "datum.col == 0 && datum.row == 0"},
+                            {
+                                "calculate": (
+                                    "datum.group == 'Men' ? '43 figures = 129 (0.97 per 100k)' : '7 figures = 21 (0.15 per 100k)'"
+                                ),
+                                "as": "panel_note",
+                            },
+                        ],
+                        "mark": {
+                            "type": "text",
+                            "align": "left",
+                            "dx": -6,
+                            "dy": 22,
+                            "font": FONT,
+                            "fontSize": 11,
+                            "fontWeight": 600,
+                            "color": INK,
+                        },
+                        "encoding": {
+                            "x": {"field": "col", "type": "ordinal"},
+                            "y": {"field": "row", "type": "ordinal", "sort": "descending"},
+                            "text": {"field": "panel_note", "type": "nominal"},
+                        },
+                    },
+                ],
             },
             "config": config(),
         },
     )
 
-    # 15. 100% Normalized Gender Share Comparison (Patrolling Members vs Coastal Drowning Deaths)
+    # 15. 100% Normalized Gender Share Comparison (Distinct Categorical Hues, Not Luminance)
     dump(
         "sex_share.vg.json",
         {
             "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-            "description": "100% stacked horizontal comparison of sex share in patrolling members vs coastal drowning deaths.",
+            "description": "100% stacked horizontal comparison of sex share in patrolling members vs coastal drowning deaths using distinct categorical hues.",
             "width": 350,
-            "height": 180,
+            "height": 185,
             "padding": {"left": 14, "right": 16, "top": 10, "bottom": 10},
             "data": csv_data("sex_share.csv"),
             "transform": [
@@ -1591,9 +1706,9 @@ def main():
                             "sort": ["Male", "Female"],
                             "scale": {
                                 "domain": ["Male", "Female"],
-                                "range": [INK, "#cbbab4"],
+                                "range": [INDIGO_MALE, AMBER_FEMALE],
                             },
-                            "legend": {"title": "Sex:", "orient": "bottom"},
+                            "legend": {"title": "Sex (dedicated categorical hues):", "orient": "bottom"},
                         },
                         "tooltip": [
                             {"field": "group", "type": "nominal", "title": "Population group"},
@@ -1631,7 +1746,7 @@ def main():
                         "font": FONT,
                         "fontSize": 11.5,
                         "fontWeight": 600,
-                        "color": INK,
+                        "color": "#ffffff",
                     },
                     "encoding": {
                         "x": {"datum": 99},

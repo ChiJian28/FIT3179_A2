@@ -10,7 +10,7 @@
     "bottom": 10
   },
   "data": {
-    "url": "data/slope_states.csv?v=20",
+    "url": "data/slope_states.csv?v=30",
     "format": {
       "type": "csv"
     }
@@ -622,7 +622,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

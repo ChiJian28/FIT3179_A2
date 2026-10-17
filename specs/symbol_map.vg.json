@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Proportional symbol map. Circle area encodes volunteer patrol hours across 315 SLS clubs.",
+  "description": "Graduated symbol map with 4 classified volunteer patrol hour tiers. Single flat colour, zero circle overlap.",
   "width": 470,
   "height": 420,
   "padding": {
@@ -23,7 +23,7 @@
   "layer": [
     {
       "data": {
-        "url": "data/au-states.geojson?v=20",
+        "url": "data/au-states.geojson?v=30",
         "format": {
           "type": "json",
           "property": "features"
@@ -38,7 +38,7 @@
     },
     {
       "data": {
-        "url": "data/states.csv?v=20",
+        "url": "data/states.csv?v=30",
         "format": {
           "type": "csv"
         }
@@ -48,7 +48,7 @@
           "lookup": "state",
           "from": {
             "data": {
-              "url": "data/labels.csv?v=20",
+              "url": "data/labels.csv?v=30",
               "format": {
                 "type": "csv"
               }
@@ -59,14 +59,18 @@
               "lat"
             ]
           }
+        },
+        {
+          "calculate": "datum.hours < 50000 ? '< 50,000 hrs' : datum.hours < 150000 ? '50,000\u2013150,000 hrs' : datum.hours < 400000 ? '150,000\u2013400,000 hrs' : '> 400,000 hrs'",
+          "as": "hours_class"
         }
       ],
       "mark": {
         "type": "circle",
-        "opacity": 0.84,
+        "opacity": 0.88,
         "color": "#1d4e73",
         "stroke": "#ffffff",
-        "strokeWidth": 1.4
+        "strokeWidth": 1.6
       },
       "encoding": {
         "longitude": {
@@ -78,28 +82,28 @@
           "type": "quantitative"
         },
         "size": {
-          "field": "hours",
-          "type": "quantitative",
+          "field": "hours_class",
+          "type": "ordinal",
           "scale": {
-            "type": "linear",
-            "range": [
-              24,
-              2100
+            "domain": [
+              "< 50,000 hrs",
+              "50,000\u2013150,000 hrs",
+              "150,000\u2013400,000 hrs",
+              "> 400,000 hrs"
             ],
-            "zero": true
+            "range": [
+              95,
+              240,
+              480,
+              880
+            ]
           },
-          "title": "Volunteer patrol hours",
+          "title": "Volunteer patrol hours (4 graduated classes)",
           "legend": {
             "orient": "bottom",
+            "columns": 2,
             "direction": "horizontal",
-            "values": [
-              50000,
-              200000,
-              400000,
-              650000
-            ],
-            "format": ",",
-            "labelExpr": "format(datum.value, ',')"
+            "labelLimit": 190
           }
         },
         "order": {
@@ -112,6 +116,11 @@
             "field": "state",
             "type": "nominal",
             "title": "State"
+          },
+          {
+            "field": "hours_class",
+            "type": "nominal",
+            "title": "Graduated class"
           },
           {
             "field": "hours",
@@ -129,19 +138,13 @@
             "field": "clubs",
             "type": "quantitative",
             "title": "SLS clubs"
-          },
-          {
-            "field": "rescues",
-            "type": "quantitative",
-            "title": "Rescues (2023/24)",
-            "format": ","
           }
         ]
       }
     },
     {
       "data": {
-        "url": "data/states.csv?v=20",
+        "url": "data/states.csv?v=30",
         "format": {
           "type": "csv"
         }
@@ -151,7 +154,7 @@
           "lookup": "state",
           "from": {
             "data": {
-              "url": "data/labels.csv?v=20",
+              "url": "data/labels.csv?v=30",
               "format": {
                 "type": "csv"
               }
@@ -173,7 +176,7 @@
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
         "fontWeight": 600,
-        "dy": -12,
+        "dy": -19,
         "color": "#1c2430"
       },
       "encoding": {
@@ -219,7 +222,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

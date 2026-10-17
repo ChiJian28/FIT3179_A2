@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Classified choropleth of the 2023/24 coastal drowning rate with interactive metric label selector.",
+  "description": "Classified choropleth of the 2023/24 coastal drowning rate with interactive normalized metric selector.",
   "width": 920,
   "height": 450,
   "padding": {
@@ -30,22 +30,22 @@
           "rate",
           "rate_10yr",
           "beyond_pct",
-          "deaths"
+          "clubs_per_1000km"
         ],
         "labels": [
           "2023/24 rate (per 100k)",
           "10-year avg rate (per 100k)",
           "Share >1 km from patrol (%)",
-          "2023/24 drowning count (n)"
+          "SLS clubs per 1,000 km coast"
         ],
-        "name": "Inspect state metric on map: "
+        "name": "Inspect normalized state metric: "
       }
     }
   ],
   "layer": [
     {
       "data": {
-        "url": "data/au-states.geojson?v=20",
+        "url": "data/au-states.geojson?v=30",
         "format": {
           "type": "json",
           "property": "features"
@@ -56,7 +56,7 @@
           "lookup": "properties.STATE_NAME",
           "from": {
             "data": {
-              "url": "data/states.csv?v=20",
+              "url": "data/states.csv?v=30",
               "format": {
                 "type": "csv"
               }
@@ -70,6 +70,7 @@
               "rate_class",
               "beyond_pct",
               "clubs",
+              "clubs_per_1000km",
               "pop_m"
             ]
           }
@@ -99,7 +100,7 @@
             ]
           },
           "legend": {
-            "title": "2023/24 deaths per 100,000 people",
+            "title": "2023/24 deaths per 100,000 people (normalized rate)",
             "orient": "bottom",
             "columns": 4,
             "direction": "horizontal",
@@ -125,32 +126,28 @@
             "format": ".2f"
           },
           {
-            "field": "deaths",
-            "title": "2023/24 coastal deaths",
-            "type": "quantitative"
-          },
-          {
             "field": "beyond_pct",
             "title": "Deaths >1 km from service (%)",
             "type": "quantitative"
+          },
+          {
+            "field": "clubs_per_1000km",
+            "title": "Clubs per 1,000 km coast",
+            "type": "quantitative",
+            "format": ".1f"
           },
           {
             "field": "pop_m",
             "title": "ABS population (millions)",
             "type": "quantitative",
             "format": ".2f"
-          },
-          {
-            "field": "clubs",
-            "title": "Surf Life Saving clubs",
-            "type": "quantitative"
           }
         ]
       }
     },
     {
       "data": {
-        "url": "data/states.csv?v=20",
+        "url": "data/states.csv?v=30",
         "format": {
           "type": "csv"
         }
@@ -160,7 +157,7 @@
           "lookup": "state",
           "from": {
             "data": {
-              "url": "data/labels.csv?v=20",
+              "url": "data/labels.csv?v=30",
               "format": {
                 "type": "csv"
               }
@@ -173,7 +170,7 @@
           }
         },
         {
-          "calculate": "label_mode == 'rate_10yr' ? datum.code + '  ' + datum.rate_10yr : label_mode == 'beyond_pct' ? datum.code + '  ' + datum.beyond_pct + '%' : label_mode == 'deaths' ? (datum.deaths === '' || datum.deaths == null ? datum.code + ' (5-yr)' : datum.code + '  n=' + datum.deaths) : (datum.deaths === '' || datum.deaths == null ? datum.code + ' (no 1-yr)' : datum.code + '  ' + datum.rate)",
+          "calculate": "label_mode == 'rate_10yr' ? datum.code + '  ' + datum.rate_10yr : label_mode == 'beyond_pct' ? datum.code + '  ' + datum.beyond_pct + '%' : label_mode == 'clubs_per_1000km' ? datum.code + '  ' + datum.clubs_per_1000km + '/1k km' : (datum.deaths === '' || datum.deaths == null ? datum.code + ' (no 1-yr)' : datum.code + '  ' + datum.rate)",
           "as": "label"
         }
       ],
@@ -262,7 +259,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

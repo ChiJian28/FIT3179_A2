@@ -26,12 +26,12 @@ body {
   background: var(--sand);
   color: var(--ink);
   font-family: "Source Sans 3", "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 17.5px;
-  line-height: 1.58;
+  font-size: 18px;
+  line-height: 1.56;
 }
 
 .page {
-  width: min(1160px, calc(100% - 48px));
+  width: min(980px, calc(100% - 48px));
   margin: 0 auto;
   padding: 40px 0 80px;
 }
@@ -50,16 +50,20 @@ body {
   gap: 8px 24px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .kicker {
-  margin: 0;
+  margin: 0 0 8px;
   color: var(--ochre);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.11em;
   text-transform: uppercase;
+}
+
+.masthead-top .kicker {
+  margin-bottom: 0;
 }
 
 .byline-meta {
@@ -68,30 +72,30 @@ body {
   font-size: 14.5px;
 }
 
-.masthead-hero {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: 28px;
-  align-items: end;
-  margin-bottom: 26px;
-}
-
 h1 {
-  margin: 0;
+  margin: 0 0 16px;
   font-family: Fraunces, Georgia, serif;
-  font-size: 50px;
+  font-size: 48px;
   font-weight: 650;
-  line-height: 1.04;
+  line-height: 1.05;
   letter-spacing: -0.025em;
   color: var(--ink);
 }
 
-.lede {
+/* Symmetric 2-Column Narrative Grid (476px per column = 7.5–9 words/line, zero white space) */
+.prose-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+.prose-grid p {
   margin: 0;
-  font-size: 19.5px;
-  line-height: 1.5;
+  font-size: 18px;
+  line-height: 1.56;
   color: var(--ink);
-  max-width: 64ch;
 }
 
 /* KPI 4-Column Strip */
@@ -141,54 +145,29 @@ h1 {
   color: var(--muted);
 }
 
-/* Sections & Symmetric Sight-Line Grids */
+/* Sections */
 .section {
   margin-top: 52px;
   padding-top: 32px;
   border-top: 1px solid var(--line-strong);
 }
 
-.section-header {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: 28px;
-  align-items: start;
-  margin-bottom: 22px;
-}
-
-.section-title-col .kicker {
-  margin-bottom: 8px;
-}
-
 h2 {
-  margin: 0;
+  margin: 0 0 16px;
   font-family: Fraunces, Georgia, serif;
-  font-size: 30px;
+  font-size: 31px;
   font-weight: 560;
-  line-height: 1.18;
+  line-height: 1.16;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
 
-.prose {
-  margin: 0;
-}
-
-.prose p {
-  margin: 0 0 12px;
-  max-width: 65ch;
-}
-
-.prose p:last-child {
-  margin-bottom: 0;
-}
-
-/* Grid rows for charts */
+/* Grid rows for charts (shares exact 28px gap and sight-lines with .prose-grid) */
 .grid-pair {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 22px;
-  margin-top: 22px;
+  gap: 28px;
+  margin-top: 24px;
   align-items: stretch;
 }
 
@@ -315,8 +294,13 @@ figcaption {
   padding-top: 8px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 14px;
-  line-height: 1.45;
+  font-size: 15.5px;
+  line-height: 1.48;
+}
+
+.grid-full figcaption {
+  column-count: 2;
+  column-gap: 28px;
 }
 
 .death {
@@ -345,7 +329,7 @@ figcaption {
 .footer-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  gap: 22px;
 }
 
 .sources h3 {
@@ -362,7 +346,7 @@ figcaption {
 
 .sources li {
   margin: 0 0 10px;
-  font-size: 14.5px;
+  font-size: 15px;
   line-height: 1.48;
   color: var(--muted);
 }
@@ -372,9 +356,8 @@ figcaption {
   font-weight: 600;
 }
 
-@media screen and (max-width: 860px) {
-  .masthead-hero,
-  .section-header,
+@media screen and (max-width: 640px) {
+  .prose-grid,
   .grid-pair,
   .footer-grid {
     grid-template-columns: 1fr;
@@ -382,14 +365,17 @@ figcaption {
   .kpi-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .grid-full figcaption {
+    column-count: 1;
+  }
   h1 {
-    font-size: 38px;
+    font-size: 36px;
   }
   h2 {
-    font-size: 26px;
+    font-size: 25px;
   }
   .page {
-    width: min(1160px, calc(100% - 28px));
+    width: min(980px, calc(100% - 28px));
   }
 }
 
@@ -402,20 +388,25 @@ figcaption {
     background: var(--sand);
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-    font-size: 13.5px;
+    font-size: 12.5px;
   }
   .page {
     width: 100%;
     padding: 8px 0;
   }
   h1 {
-    font-size: 34px;
+    font-size: 30px;
   }
   h2 {
-    font-size: 22px;
+    font-size: 20px;
   }
-  .lede {
-    font-size: 15px;
+  .prose-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .prose-grid p {
+    font-size: 12px;
   }
   .kpi-num {
     font-size: 24px;
@@ -424,14 +415,14 @@ figcaption {
   .onchart p,
   figcaption,
   .sources li {
-    font-size: 11.5px;
+    font-size: 11px;
   }
   .figure-head h3 {
-    font-size: 14px;
+    font-size: 13.5px;
   }
   .section {
-    margin-top: 28px;
-    padding-top: 18px;
+    margin-top: 26px;
+    padding-top: 16px;
   }
   .grid-pair {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

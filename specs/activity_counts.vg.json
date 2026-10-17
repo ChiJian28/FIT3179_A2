@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "2023/24 coastal drowning deaths by activity with count and percentage share.",
+  "description": "2023/24 coastal drowning deaths by activity with selective annotations.",
   "width": 320,
   "height": 210,
   "padding": {
@@ -10,7 +10,7 @@
     "bottom": 8
   },
   "data": {
-    "url": "data/activity_counts.csv?v=20",
+    "url": "data/activity_counts.csv?v=30",
     "format": {
       "type": "csv"
     }
@@ -47,7 +47,7 @@
         "zero": true,
         "domain": [
           0,
-          76
+          78
         ]
       },
       "axis": {
@@ -92,6 +92,11 @@
       }
     },
     {
+      "transform": [
+        {
+          "filter": "datum.activity == 'Swimming and wading' || datum.activity == 'Boating' || datum.activity == 'Falls into water'"
+        }
+      ],
       "mark": {
         "type": "text",
         "align": "left",
@@ -136,7 +141,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

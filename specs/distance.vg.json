@@ -10,7 +10,7 @@
     "bottom": 10
   },
   "data": {
-    "url": "data/distance.csv?v=20",
+    "url": "data/distance.csv?v=30",
     "format": {
       "type": "csv"
     }
@@ -60,7 +60,7 @@
         "x": {
           "field": "calc_within_pct",
           "type": "quantitative",
-          "title": "Share of coastal deaths (%) \u2014 Within 1 km (grey) vs. >1 km (red)",
+          "title": "Share of coastal deaths (%) \u2014 Within 1 km (blue) vs. >1 km (red)",
           "scale": {
             "zero": true,
             "domain": [
@@ -88,7 +88,7 @@
     {
       "mark": {
         "type": "circle",
-        "color": "#8a8178",
+        "color": "#1d4e73",
         "size": 120,
         "opacity": 1
       },
@@ -159,6 +159,11 @@
       }
     },
     {
+      "transform": [
+        {
+          "filter": "datum.code == 'Tas' || datum.code == 'SA' || datum.code == 'NSW'"
+        }
+      ],
       "mark": {
         "type": "text",
         "align": "left",
@@ -180,13 +185,19 @@
       }
     },
     {
+      "transform": [
+        {
+          "filter": "datum.code == 'Tas' || datum.code == 'SA' || datum.code == 'NSW'"
+        }
+      ],
       "mark": {
         "type": "text",
         "align": "right",
         "dx": -9,
         "font": "Source Sans 3, sans-serif",
         "fontSize": 11.5,
-        "color": "#786f66"
+        "fontWeight": 600,
+        "color": "#1d4e73"
       },
       "encoding": {
         "x": {
@@ -227,7 +238,8 @@
       "labelColor": "#1c2430",
       "titleColor": "#1c2430",
       "symbolStrokeWidth": 0,
-      "labelLimit": 240
+      "labelLimit": 240,
+      "titleLimit": 280
     },
     "header": {
       "labelFont": "Source Sans 3, sans-serif",

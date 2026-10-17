@@ -1,4 +1,4 @@
-const version = "23";
+const version = "30";
 const specs = [
   ["#national-bars", "specs/national_bars.vg.json"],
   ["#decade-brush", "specs/decade_brush.vg.json"],
