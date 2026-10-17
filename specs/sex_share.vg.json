@@ -10,7 +10,7 @@
     "bottom": 10
   },
   "data": {
-    "url": "data/sex_share.csv?v=31",
+    "url": "data/sex_share.csv?v=32",
     "format": {
       "type": "csv"
     }

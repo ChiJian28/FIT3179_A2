@@ -56,7 +56,7 @@ PERSON_PATH = (
     "L -0.30 0.34 L -0.48 0.34 Z"
 )
 
-DATA_VER = "?v=31"
+DATA_VER = "?v=32"
 
 
 def csv_data(filename):
@@ -1303,7 +1303,7 @@ def main():
                                             "Beach · No rip",
                                             "Offshore · Open water",
                                             "Rock/cliff · Wave-swept platform",
-                                            "Other · Harbour, bay or inlet",
+                                            "Other · Harbour or inlet",
                                         ],
                                         "range": [SLATE_NAVY, "#9e2a25", "#c46d58", "#2d828c", "#a37945", "#837294"],
                                     },
@@ -1345,7 +1345,7 @@ def main():
                     "encoding": {"text": {"field": "t2", "type": "nominal"}},
                 },
             ],
-            "resolve": {"scale": {"color": "independent"}},
+            "resolve": {"scale": {"color": "independent", "theta": "independent"}},
             "config": config(),
         },
     )

@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "2023/24 rescues and preventative actions against their ten-year averages.",
   "data": {
-    "url": "data/national_bars.csv?v=31",
+    "url": "data/national_bars.csv?v=32",
     "format": {
       "type": "csv"
     }

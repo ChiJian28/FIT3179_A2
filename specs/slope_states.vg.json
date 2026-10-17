@@ -10,7 +10,7 @@
     "bottom": 10
   },
   "data": {
-    "url": "data/slope_states.csv?v=31",
+    "url": "data/slope_states.csv?v=32",
     "format": {
       "type": "csv"
     }

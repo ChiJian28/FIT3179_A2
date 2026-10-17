@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Pictorial ISOTYPE chart of 150 coastal drowning deaths using human figure glyphs (each icon = 3 deaths) with in-chart annotations.",
   "data": {
-    "url": "data/isotype.csv?v=31",
+    "url": "data/isotype.csv?v=32",
     "format": {
       "type": "csv"
     }

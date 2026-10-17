@@ -12,7 +12,7 @@
   "layer": [
     {
       "data": {
-        "url": "data/sunburst_inner.csv?v=31",
+        "url": "data/sunburst_inner.csv?v=32",
         "format": {
           "type": "csv"
         }
@@ -115,7 +115,7 @@
     },
     {
       "data": {
-        "url": "data/sunburst_outer.csv?v=31",
+        "url": "data/sunburst_outer.csv?v=32",
         "format": {
           "type": "csv"
         }
@@ -155,7 +155,7 @@
                   "Beach \u00b7 No rip",
                   "Offshore \u00b7 Open water",
                   "Rock/cliff \u00b7 Wave-swept platform",
-                  "Other \u00b7 Harbour, bay or inlet"
+                  "Other \u00b7 Harbour or inlet"
                 ],
                 "range": [
                   "#344e68",
@@ -269,7 +269,8 @@
   ],
   "resolve": {
     "scale": {
-      "color": "independent"
+      "color": "independent",
+      "theta": "independent"
     }
   },
   "config": {
