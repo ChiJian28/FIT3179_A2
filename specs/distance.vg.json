@@ -10,7 +10,7 @@
     "bottom": 10
   },
   "data": {
-    "url": "data/distance.csv?v=30",
+    "url": "data/distance.csv?v=31",
     "format": {
       "type": "csv"
     }

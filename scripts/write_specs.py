@@ -56,7 +56,7 @@ PERSON_PATH = (
     "L -0.30 0.34 L -0.48 0.34 Z"
 )
 
-DATA_VER = "?v=30"
+DATA_VER = "?v=31"
 
 
 def csv_data(filename):
@@ -1278,9 +1278,11 @@ def main():
                     "transform": [
                         {
                             "calculate": (
-                                "datum.ord == 1 ? 'Unknown 23.3%' : "
-                                "datum.ord == 2 ? 'Rip 19.3%' : "
-                                "datum.ord == 3 ? 'No rip 13.3%' : ''"
+                                "datum.ord == 1 ? '23.3%' : "
+                                "datum.ord == 2 ? '19.3%' : "
+                                "datum.ord == 3 ? '13.3%' : "
+                                "datum.ord == 4 ? '18.7%' : "
+                                "datum.ord == 5 ? '12.7%' : '12.7%'"
                             ),
                             "as": "outer_pct_str",
                         }
@@ -1296,25 +1298,21 @@ def main():
                                     "type": "nominal",
                                     "scale": {
                                         "domain": [
-                                            "Beach · Rip unknown (41.7% of beach)",
-                                            "Beach · Rip confirmed (34.5% of beach)",
-                                            "Beach · No rip (23.8% of beach)",
-                                            "Offshore waters (non-beach)",
-                                            "Rock or cliff (non-beach)",
-                                            "Other coastal waters (non-beach)",
+                                            "Beach · Rip unknown",
+                                            "Beach · Rip confirmed",
+                                            "Beach · No rip",
+                                            "Offshore · Open water",
+                                            "Rock/cliff · Wave-swept platform",
+                                            "Other · Harbour, bay or inlet",
                                         ],
-                                        "range": [SLATE_NAVY, "#a8332d", "#2a6f68", PAPER, PAPER, PAPER],
+                                        "range": [SLATE_NAVY, "#9e2a25", "#c46d58", "#2d828c", "#a37945", "#837294"],
                                     },
                                     "legend": None,
                                 },
-                                "opacity": {
-                                    "condition": {"test": "datum.band == 'Beach'", "value": 1.0},
-                                    "value": 0.0,
-                                },
                                 "tooltip": [
-                                    {"field": "slice", "type": "nominal", "title": "Beach rip breakdown"},
+                                    {"field": "slice", "type": "nominal", "title": "Sub-category"},
                                     {"field": "pct_total", "type": "quantitative", "title": "Share of all 150 deaths (%)", "format": ".1f"},
-                                    {"field": "pct_beach", "type": "quantitative", "title": "Share of 84 beach deaths (%)", "format": ".1f"},
+                                    {"field": "pct_parent", "type": "quantitative", "title": "Share of parent location (%)", "format": ".1f"},
                                     {"field": "count", "type": "quantitative", "title": "Deaths (n)"},
                                 ],
                             },
@@ -1324,7 +1322,7 @@ def main():
                                 "type": "text",
                                 "radius": 143,
                                 "font": FONT,
-                                "fontSize": 10.5,
+                                "fontSize": 11,
                                 "fontWeight": 700,
                                 "color": "#ffffff",
                             },

@@ -1,7 +1,7 @@
-slice,count,pct_total,pct_beach,ord,band
-Beach · Rip unknown (41.7% of beach),35,23.3,41.7,1,Beach
-Beach · Rip confirmed (34.5% of beach),29,19.3,34.5,2,Beach
-Beach · No rip (23.8% of beach),20,13.3,23.8,3,Beach
-Offshore waters (non-beach),28,18.7,,4,Non-beach
-Rock or cliff (non-beach),19,12.7,,5,Non-beach
-Other coastal waters (non-beach),19,12.7,,6,Non-beach
+slice,count,pct_total,pct_parent,ord,band
+Beach · Rip unknown,35,23.3,41.7,1,Beach
+Beach · Rip confirmed,29,19.3,34.5,2,Beach
+Beach · No rip,20,13.3,23.8,3,Beach
+Offshore · Open water,28,18.7,100.0,4,Non-beach
+Rock/cliff · Wave-swept platform,19,12.7,100.0,5,Non-beach
+Other · Harbour, bay or inlet,19,12.7,100.0,6,Non-beach

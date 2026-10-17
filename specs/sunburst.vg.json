@@ -12,7 +12,7 @@
   "layer": [
     {
       "data": {
-        "url": "data/sunburst_inner.csv?v=30",
+        "url": "data/sunburst_inner.csv?v=31",
         "format": {
           "type": "csv"
         }
@@ -115,14 +115,14 @@
     },
     {
       "data": {
-        "url": "data/sunburst_outer.csv?v=30",
+        "url": "data/sunburst_outer.csv?v=31",
         "format": {
           "type": "csv"
         }
       },
       "transform": [
         {
-          "calculate": "datum.ord == 1 ? 'Unknown 23.3%' : datum.ord == 2 ? 'Rip 19.3%' : datum.ord == 3 ? 'No rip 13.3%' : ''",
+          "calculate": "datum.ord == 1 ? '23.3%' : datum.ord == 2 ? '19.3%' : datum.ord == 3 ? '13.3%' : datum.ord == 4 ? '18.7%' : datum.ord == 5 ? '12.7%' : '12.7%'",
           "as": "outer_pct_str"
         }
       ],
@@ -150,36 +150,29 @@
               "type": "nominal",
               "scale": {
                 "domain": [
-                  "Beach \u00b7 Rip unknown (41.7% of beach)",
-                  "Beach \u00b7 Rip confirmed (34.5% of beach)",
-                  "Beach \u00b7 No rip (23.8% of beach)",
-                  "Offshore waters (non-beach)",
-                  "Rock or cliff (non-beach)",
-                  "Other coastal waters (non-beach)"
+                  "Beach \u00b7 Rip unknown",
+                  "Beach \u00b7 Rip confirmed",
+                  "Beach \u00b7 No rip",
+                  "Offshore \u00b7 Open water",
+                  "Rock/cliff \u00b7 Wave-swept platform",
+                  "Other \u00b7 Harbour, bay or inlet"
                 ],
                 "range": [
                   "#344e68",
-                  "#a8332d",
-                  "#2a6f68",
-                  "#fffcf8",
-                  "#fffcf8",
-                  "#fffcf8"
+                  "#9e2a25",
+                  "#c46d58",
+                  "#2d828c",
+                  "#a37945",
+                  "#837294"
                 ]
               },
               "legend": null
-            },
-            "opacity": {
-              "condition": {
-                "test": "datum.band == 'Beach'",
-                "value": 1.0
-              },
-              "value": 0.0
             },
             "tooltip": [
               {
                 "field": "slice",
                 "type": "nominal",
-                "title": "Beach rip breakdown"
+                "title": "Sub-category"
               },
               {
                 "field": "pct_total",
@@ -188,9 +181,9 @@
                 "format": ".1f"
               },
               {
-                "field": "pct_beach",
+                "field": "pct_parent",
                 "type": "quantitative",
-                "title": "Share of 84 beach deaths (%)",
+                "title": "Share of parent location (%)",
                 "format": ".1f"
               },
               {
@@ -206,7 +199,7 @@
             "type": "text",
             "radius": 143,
             "font": "Source Sans 3, sans-serif",
-            "fontSize": 10.5,
+            "fontSize": 11,
             "fontWeight": 700,
             "color": "#ffffff"
           },
