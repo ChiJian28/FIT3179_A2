@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Interactive 10-year overview-and-detail view with interval brush linking preventative actions and coastal drowning deaths.",
   "data": {
-    "url": "data/decade_trends.csv?v=32",
+    "url": "data/decade_trends.csv?v=33",
     "format": {
       "type": "csv"
     }

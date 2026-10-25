@@ -313,6 +313,16 @@ figcaption {
   font-weight: 700;
 }
 
+.male {
+  color: #4b4e8f;
+  font-weight: 700;
+}
+
+.female {
+  color: #b07128;
+  font-weight: 700;
+}
+
 /* Sources Footer */
 .sources {
   margin-top: 56px;

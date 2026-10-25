@@ -10,7 +10,7 @@
     "bottom": 8
   },
   "data": {
-    "url": "data/heatmap.csv?v=32",
+    "url": "data/heatmap.csv?v=33",
     "format": {
       "type": "csv"
     }

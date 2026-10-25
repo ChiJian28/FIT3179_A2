@@ -45,7 +45,7 @@
   "layer": [
     {
       "data": {
-        "url": "data/au-states.geojson?v=32",
+        "url": "data/au-states.geojson?v=33",
         "format": {
           "type": "json",
           "property": "features"
@@ -56,7 +56,7 @@
           "lookup": "properties.STATE_NAME",
           "from": {
             "data": {
-              "url": "data/states.csv?v=32",
+              "url": "data/states.csv?v=33",
               "format": {
                 "type": "csv"
               }
@@ -147,7 +147,7 @@
     },
     {
       "data": {
-        "url": "data/states.csv?v=32",
+        "url": "data/states.csv?v=33",
         "format": {
           "type": "csv"
         }
@@ -157,7 +157,7 @@
           "lookup": "state",
           "from": {
             "data": {
-              "url": "data/labels.csv?v=32",
+              "url": "data/labels.csv?v=33",
               "format": {
                 "type": "csv"
               }

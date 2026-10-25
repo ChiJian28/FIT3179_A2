@@ -10,7 +10,7 @@
     "bottom": 10
   },
   "data": {
-    "url": "data/bullets.csv?v=32",
+    "url": "data/bullets.csv?v=33",
     "format": {
       "type": "csv"
     }

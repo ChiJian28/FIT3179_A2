@@ -12,7 +12,7 @@
   "layer": [
     {
       "data": {
-        "url": "data/sunburst_inner.csv?v=32",
+        "url": "data/sunburst_inner.csv?v=33",
         "format": {
           "type": "csv"
         }
@@ -115,14 +115,18 @@
     },
     {
       "data": {
-        "url": "data/sunburst_outer.csv?v=32",
+        "url": "data/sunburst_outer.csv?v=33",
         "format": {
           "type": "csv"
         }
       },
       "transform": [
         {
-          "calculate": "datum.ord == 1 ? '23.3%' : datum.ord == 2 ? '19.3%' : datum.ord == 3 ? '13.3%' : datum.ord == 4 ? '18.7%' : datum.ord == 5 ? '12.7%' : '12.7%'",
+          "calculate": "datum.ord == 1 ? 'Unknown;23.3%' : datum.ord == 2 ? 'Rip;19.3%' : datum.ord == 3 ? 'No rip;13.3%' : datum.ord == 4 ? '18.7%' : datum.ord == 5 ? '12.7%' : '12.7%'",
+          "as": "outer_pct_raw"
+        },
+        {
+          "calculate": "split(datum.outer_pct_raw, ';')",
           "as": "outer_pct_str"
         }
       ],
@@ -131,7 +135,7 @@
           "mark": {
             "type": "arc",
             "innerRadius": 120,
-            "outerRadius": 166,
+            "outerRadius": 168,
             "stroke": "#ffffff",
             "strokeWidth": 2
           },
@@ -197,9 +201,10 @@
         {
           "mark": {
             "type": "text",
-            "radius": 143,
+            "radius": 144,
             "font": "Source Sans 3, sans-serif",
-            "fontSize": 11,
+            "fontSize": 10,
+            "lineHeight": 11,
             "fontWeight": 700,
             "color": "#ffffff"
           },

@@ -56,7 +56,7 @@ PERSON_PATH = (
     "L -0.30 0.34 L -0.48 0.34 Z"
 )
 
-DATA_VER = "?v=32"
+DATA_VER = "?v=33"
 
 
 def csv_data(filename):
@@ -1278,18 +1278,22 @@ def main():
                     "transform": [
                         {
                             "calculate": (
-                                "datum.ord == 1 ? '23.3%' : "
-                                "datum.ord == 2 ? '19.3%' : "
-                                "datum.ord == 3 ? '13.3%' : "
+                                "datum.ord == 1 ? 'Unknown;23.3%' : "
+                                "datum.ord == 2 ? 'Rip;19.3%' : "
+                                "datum.ord == 3 ? 'No rip;13.3%' : "
                                 "datum.ord == 4 ? '18.7%' : "
                                 "datum.ord == 5 ? '12.7%' : '12.7%'"
                             ),
+                            "as": "outer_pct_raw",
+                        },
+                        {
+                            "calculate": "split(datum.outer_pct_raw, ';')",
                             "as": "outer_pct_str",
-                        }
+                        },
                     ],
                     "layer": [
                         {
-                            "mark": {"type": "arc", "innerRadius": 120, "outerRadius": 166, "stroke": "#ffffff", "strokeWidth": 2},
+                            "mark": {"type": "arc", "innerRadius": 120, "outerRadius": 168, "stroke": "#ffffff", "strokeWidth": 2},
                             "encoding": {
                                 "theta": {"field": "count", "type": "quantitative", "stack": True},
                                 "order": {"field": "ord", "type": "quantitative"},
@@ -1320,9 +1324,10 @@ def main():
                         {
                             "mark": {
                                 "type": "text",
-                                "radius": 143,
+                                "radius": 144,
                                 "font": FONT,
-                                "fontSize": 11,
+                                "fontSize": 10,
+                                "lineHeight": 11,
                                 "fontWeight": 700,
                                 "color": "#ffffff",
                             },
